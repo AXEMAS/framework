@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Axemas</string>
+    <string name="title_activity_section">SectionActivity</string>
+    <string name="press_again_to_exit">Press again to exit.</string>
+    <string name="dialog_close_button">Close</string>
+    <string name="dialog_no_connection_title">No Available Connection</string>
+    <string name="dialog_no_connection_text">The application requires a working internet connection, the following dialog will disappear when connection is available</string>
+</resources>

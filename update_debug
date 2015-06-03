@@ -1,0 +1,37 @@
+#!/bin/bash
+EXAMPLES_REPO=../examples
+DEMO_FOLDER=$EXAMPLES_REPO/demo
+IOS_BUILD_DIR=ios/axemas
+ANDROID_LIBRARY=$DEMO_FOLDER/axemas-android/app/libs/axemas.aar
+HTML_DIR=$DEMO_FOLDER/html
+
+
+if ! [ -d $EXAMPLES_REPO ]; then
+    echo Cloning Examples Repo
+    mkdir $EXAMPLES_REPO
+    git clone https://github.com/AXEMAS/examples.git $EXAMPLES_REPO 
+fi
+
+
+echo Starting iOS project update
+cd $IOS_BUILD_DIR
+./build_libaxemas
+cd -
+rm -R $DEMO_FOLDER/axemas-ios/axemas/release
+cp -r ios/axemas/release $DEMO_FOLDER/axemas-ios/axemas/
+echo Finished iOS project update
+
+
+echo Starting Android project update
+cd android
+./gradlew clean && ./gradlew assemble
+rm -f $ANDROID_LIBRARY
+cp app/build/outputs/aar/app-release.aar ../$ANDROID_LIBRARY
+echo Finished Android project update
+
+echo Starting HTML library update
+cd ..
+rm -R $HTML_DIR
+cp -r html $HTML_DIR
+echo Finished HTML library update
+

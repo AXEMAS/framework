@@ -1,0 +1,516 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3CE6F46F1ABA161F00F2E9AA /* NavigationControllerCustomAnimations.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE6F46E1ABA161F00F2E9AA /* NavigationControllerCustomAnimations.m */; };
+		5A0E7D5C1A6D25590065244C /* SectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A0E7D5B1A6D25590065244C /* SectionViewController.xib */; };
+		5A0E7EAD1A6E96000065244C /* SWRevealViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A7A59FF1A69B77C00192AA3 /* SWRevealViewController.h */; };
+		5A7A59F51A69B73C00192AA3 /* SectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A59EC1A69B73C00192AA3 /* SectionViewController.m */; };
+		5A7A59F61A69B73C00192AA3 /* NavigationSectionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A59EE1A69B73C00192AA3 /* NavigationSectionsManager.m */; };
+		5A7A59F71A69B73C00192AA3 /* NetworkAvailabilityDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A59F01A69B73C00192AA3 /* NetworkAvailabilityDetector.m */; };
+		5A7A59F81A69B73C00192AA3 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A59F21A69B73C00192AA3 /* WebViewJavascriptBridge.m */; };
+		5A7A59F91A69B73C00192AA3 /* AXMSectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A59F41A69B73C00192AA3 /* AXMSectionController.m */; };
+		5A7A59FD1A69B76200192AA3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A59FC1A69B76200192AA3 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5A7A5A011A69B77C00192AA3 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A5A001A69B77C00192AA3 /* SWRevealViewController.m */; };
+		5A7A5A021A69B80600192AA3 /* SectionViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A7A59EB1A69B73C00192AA3 /* SectionViewController.h */; };
+		5A7A5A031A69B80600192AA3 /* NavigationSectionsManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A7A59ED1A69B73C00192AA3 /* NavigationSectionsManager.h */; };
+		5A7A5A041A69B80600192AA3 /* NetworkAvailabilityDetector.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A7A59EF1A69B73C00192AA3 /* NetworkAvailabilityDetector.h */; };
+		5A7A5A051A69B80600192AA3 /* WebViewJavascriptBridge.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A7A59F11A69B73C00192AA3 /* WebViewJavascriptBridge.h */; };
+		5A7A5A061A69B80600192AA3 /* AXMSectionController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A7A59F31A69B73C00192AA3 /* AXMSectionController.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5A0E7E411A6D685D0065244C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5A7A59C81A69B6B500192AA3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5A0E7D501A6D19240065244C;
+			remoteInfo = axemasResources;
+		};
+		5A0E7E951A6E94750065244C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5A0E7E8F1A6E94740065244C /* AXO.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3C6AE8AE16C31FCD00314AC4;
+			remoteInfo = AXO;
+		};
+		5A0E7E991A6E94750065244C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5A0E7E8F1A6E94740065244C /* AXO.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3CC251A917E0C1CB00118D3F;
+			remoteInfo = AXOResources;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5A7A59CE1A69B6B500192AA3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				5A0E7EAD1A6E96000065244C /* SWRevealViewController.h in CopyFiles */,
+				5A7A5A021A69B80600192AA3 /* SectionViewController.h in CopyFiles */,
+				5A7A5A031A69B80600192AA3 /* NavigationSectionsManager.h in CopyFiles */,
+				5A7A5A041A69B80600192AA3 /* NetworkAvailabilityDetector.h in CopyFiles */,
+				5A7A5A051A69B80600192AA3 /* WebViewJavascriptBridge.h in CopyFiles */,
+				5A7A5A061A69B80600192AA3 /* AXMSectionController.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		3CE6F46D1ABA161F00F2E9AA /* NavigationControllerCustomAnimations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationControllerCustomAnimations.h; sourceTree = "<group>"; };
+		3CE6F46E1ABA161F00F2E9AA /* NavigationControllerCustomAnimations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationControllerCustomAnimations.m; sourceTree = "<group>"; };
+		5A0E7D511A6D19240065244C /* axemas.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = axemas.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A0E7D541A6D19240065244C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5A0E7D5B1A6D25590065244C /* SectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionViewController.xib; sourceTree = "<group>"; };
+		5A0E7E8F1A6E94740065244C /* AXO.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AXO.xcodeproj; path = axemas/axo/AXO.xcodeproj; sourceTree = "<group>"; };
+		5A7A59D01A69B6B500192AA3 /* libaxemas.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libaxemas.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A7A59EB1A69B73C00192AA3 /* SectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionViewController.h; sourceTree = "<group>"; };
+		5A7A59EC1A69B73C00192AA3 /* SectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionViewController.m; sourceTree = "<group>"; };
+		5A7A59ED1A69B73C00192AA3 /* NavigationSectionsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationSectionsManager.h; sourceTree = "<group>"; };
+		5A7A59EE1A69B73C00192AA3 /* NavigationSectionsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationSectionsManager.m; sourceTree = "<group>"; };
+		5A7A59EF1A69B73C00192AA3 /* NetworkAvailabilityDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkAvailabilityDetector.h; sourceTree = "<group>"; };
+		5A7A59F01A69B73C00192AA3 /* NetworkAvailabilityDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkAvailabilityDetector.m; sourceTree = "<group>"; };
+		5A7A59F11A69B73C00192AA3 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
+		5A7A59F21A69B73C00192AA3 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
+		5A7A59F31A69B73C00192AA3 /* AXMSectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMSectionController.h; sourceTree = "<group>"; };
+		5A7A59F41A69B73C00192AA3 /* AXMSectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXMSectionController.m; sourceTree = "<group>"; };
+		5A7A59FB1A69B76200192AA3 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		5A7A59FC1A69B76200192AA3 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		5A7A59FF1A69B77C00192AA3 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		5A7A5A001A69B77C00192AA3 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5A0E7D4E1A6D19240065244C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5A7A59CD1A69B6B500192AA3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5A0E7D521A6D19240065244C /* axemasResources */ = {
+			isa = PBXGroup;
+			children = (
+				5A0E7D5B1A6D25590065244C /* SectionViewController.xib */,
+				5A0E7D531A6D19240065244C /* Supporting Files */,
+			);
+			path = axemasResources;
+			sourceTree = "<group>";
+		};
+		5A0E7D531A6D19240065244C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5A0E7D541A6D19240065244C /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5A0E7E901A6E94740065244C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5A0E7E961A6E94750065244C /* libAXO.a */,
+				5A0E7E9A1A6E94750065244C /* AXOResources.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5A7A59C71A69B6B500192AA3 = {
+			isa = PBXGroup;
+			children = (
+				5A0E7E8F1A6E94740065244C /* AXO.xcodeproj */,
+				5A7A59D21A69B6B500192AA3 /* axemas */,
+				5A0E7D521A6D19240065244C /* axemasResources */,
+				5A7A59D11A69B6B500192AA3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5A7A59D11A69B6B500192AA3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5A7A59D01A69B6B500192AA3 /* libaxemas.a */,
+				5A0E7D511A6D19240065244C /* axemas.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5A7A59D21A69B6B500192AA3 /* axemas */ = {
+			isa = PBXGroup;
+			children = (
+				5A7A59FA1A69B75100192AA3 /* libs */,
+				5A7A59EB1A69B73C00192AA3 /* SectionViewController.h */,
+				5A7A59EC1A69B73C00192AA3 /* SectionViewController.m */,
+				5A7A59ED1A69B73C00192AA3 /* NavigationSectionsManager.h */,
+				5A7A59EE1A69B73C00192AA3 /* NavigationSectionsManager.m */,
+				5A7A59EF1A69B73C00192AA3 /* NetworkAvailabilityDetector.h */,
+				5A7A59F01A69B73C00192AA3 /* NetworkAvailabilityDetector.m */,
+				5A7A59F11A69B73C00192AA3 /* WebViewJavascriptBridge.h */,
+				5A7A59F21A69B73C00192AA3 /* WebViewJavascriptBridge.m */,
+				5A7A59F31A69B73C00192AA3 /* AXMSectionController.h */,
+				5A7A59F41A69B73C00192AA3 /* AXMSectionController.m */,
+				3CE6F46D1ABA161F00F2E9AA /* NavigationControllerCustomAnimations.h */,
+				3CE6F46E1ABA161F00F2E9AA /* NavigationControllerCustomAnimations.m */,
+			);
+			path = axemas;
+			sourceTree = "<group>";
+		};
+		5A7A59FA1A69B75100192AA3 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				5A7A59FE1A69B76E00192AA3 /* SWRevealViewController */,
+				5A7A59FB1A69B76200192AA3 /* Reachability.h */,
+				5A7A59FC1A69B76200192AA3 /* Reachability.m */,
+			);
+			name = libs;
+			sourceTree = "<group>";
+		};
+		5A7A59FE1A69B76E00192AA3 /* SWRevealViewController */ = {
+			isa = PBXGroup;
+			children = (
+				5A7A59FF1A69B77C00192AA3 /* SWRevealViewController.h */,
+				5A7A5A001A69B77C00192AA3 /* SWRevealViewController.m */,
+			);
+			name = SWRevealViewController;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5A0E7D501A6D19240065244C /* axemasResources */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5A0E7D551A6D19240065244C /* Build configuration list for PBXNativeTarget "axemasResources" */;
+			buildPhases = (
+				5A0E7D4D1A6D19240065244C /* Sources */,
+				5A0E7D4E1A6D19240065244C /* Frameworks */,
+				5A0E7D4F1A6D19240065244C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = axemasResources;
+			productName = axemasResources;
+			productReference = 5A0E7D511A6D19240065244C /* axemas.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		5A7A59CF1A69B6B500192AA3 /* axemas */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5A7A59E41A69B6B500192AA3 /* Build configuration list for PBXNativeTarget "axemas" */;
+			buildPhases = (
+				5A7A59CC1A69B6B500192AA3 /* Sources */,
+				5A7A59CD1A69B6B500192AA3 /* Frameworks */,
+				5A7A59CE1A69B6B500192AA3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5A0E7E421A6D685D0065244C /* PBXTargetDependency */,
+			);
+			name = axemas;
+			productName = axemas;
+			productReference = 5A7A59D01A69B6B500192AA3 /* libaxemas.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5A7A59C81A69B6B500192AA3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = axant;
+				TargetAttributes = {
+					5A0E7D501A6D19240065244C = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					5A7A59CF1A69B6B500192AA3 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 5A7A59CB1A69B6B500192AA3 /* Build configuration list for PBXProject "axemas" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 5A7A59C71A69B6B500192AA3;
+			productRefGroup = 5A7A59D11A69B6B500192AA3 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 5A0E7E901A6E94740065244C /* Products */;
+					ProjectRef = 5A0E7E8F1A6E94740065244C /* AXO.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				5A7A59CF1A69B6B500192AA3 /* axemas */,
+				5A0E7D501A6D19240065244C /* axemasResources */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		5A0E7E961A6E94750065244C /* libAXO.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAXO.a;
+			remoteRef = 5A0E7E951A6E94750065244C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5A0E7E9A1A6E94750065244C /* AXOResources.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AXOResources.bundle;
+			remoteRef = 5A0E7E991A6E94750065244C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5A0E7D4F1A6D19240065244C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A0E7D5C1A6D25590065244C /* SectionViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5A0E7D4D1A6D19240065244C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5A7A59CC1A69B6B500192AA3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A7A5A011A69B77C00192AA3 /* SWRevealViewController.m in Sources */,
+				5A7A59F51A69B73C00192AA3 /* SectionViewController.m in Sources */,
+				5A7A59F81A69B73C00192AA3 /* WebViewJavascriptBridge.m in Sources */,
+				3CE6F46F1ABA161F00F2E9AA /* NavigationControllerCustomAnimations.m in Sources */,
+				5A7A59F71A69B73C00192AA3 /* NetworkAvailabilityDetector.m in Sources */,
+				5A7A59F61A69B73C00192AA3 /* NavigationSectionsManager.m in Sources */,
+				5A7A59FD1A69B76200192AA3 /* Reachability.m in Sources */,
+				5A7A59F91A69B73C00192AA3 /* AXMSectionController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5A0E7E421A6D685D0065244C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5A0E7D501A6D19240065244C /* axemasResources */;
+			targetProxy = 5A0E7E411A6D685D0065244C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		5A0E7D561A6D19240065244C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/axemas/axo/AXO",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = axemasResources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = axemas;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		5A0E7D571A6D19240065244C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/axemas/axo/AXO",
+				);
+				INFOPLIST_FILE = axemasResources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = axemas;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		5A7A59E21A69B6B500192AA3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		5A7A59E31A69B6B500192AA3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5A7A59E51A69B6B500192AA3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/facebook-ios-sdk",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		5A7A59E61A69B6B500192AA3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/facebook-ios-sdk",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5A0E7D551A6D19240065244C /* Build configuration list for PBXNativeTarget "axemasResources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5A0E7D561A6D19240065244C /* Debug */,
+				5A0E7D571A6D19240065244C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5A7A59CB1A69B6B500192AA3 /* Build configuration list for PBXProject "axemas" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5A7A59E21A69B6B500192AA3 /* Debug */,
+				5A7A59E31A69B6B500192AA3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5A7A59E41A69B6B500192AA3 /* Build configuration list for PBXNativeTarget "axemas" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5A7A59E51A69B6B500192AA3 /* Debug */,
+				5A7A59E61A69B6B500192AA3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5A7A59C81A69B6B500192AA3 /* Project object */;
+}

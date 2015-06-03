@@ -1,0 +1,63 @@
+#!/bin/bash
+
+CONFIGURATION=Release
+
+RELEASE_DIR=./release
+BUILD_DIR=./build
+TARGET=axemas
+LIBNAME=libaxemas.a
+
+
+echo Performing project cleanup
+rm -R $RELEASE_DIR
+rm -R $BUILD_DIR
+
+echo Creating release directory
+mkdir -p $RELEASE_DIR
+
+if ! [ -d axemas/axo ]; then
+    echo "MISSING AXO, PLEASE HG CLONE IT INSIDE axemas/axo"
+    exit 1
+fi
+
+
+echo Starting to build AXEMAS library
+xcodebuild -sdk iphoneos -target $TARGET -configuration $CONFIGURATION  DSTROOT=$BUILD_DIR
+xcodebuild -sdk iphonesimulator -target $TARGET -configuration $CONFIGURATION  DSTROOT=$BUILD_DIR
+lipo -create -output $LIBNAME $BUILD_DIR/Release-iphoneos/$LIBNAME $BUILD_DIR/Release-iphonesimulator/$LIBNAME
+echo Library build AXEMAS complete
+
+mv $LIBNAME $RELEASE_DIR
+cp -r $BUILD_DIR/Release-iphoneos/axemas.bundle $RELEASE_DIR
+cp -r $BUILD_DIR/Release-iphoneos/include $RELEASE_DIR
+
+echo Removing AXENAS build directory
+rm -R $BUILD_DIR
+
+# axemas/axo
+cd axemas/axo
+
+AXO_BUILD_DIR=./build
+AXO_TARGET=AXO
+AXO_LIBNAME=libAXO.a
+AXO_RELEASE_DIR=../../release
+
+echo Performing project cleanup
+rm -R $AXO_BUILD_DIR
+
+echo Starting to build AXO library
+xcodebuild -sdk iphoneos -target $AXO_TARGET -configuration $CONFIGURATION  DSTROOT=$AXO_BUILD_DIR
+xcodebuild -sdk iphonesimulator -target $AXO_TARGET -configuration $CONFIGURATION  DSTROOT=$AXO_BUILD_DIR
+lipo -create -output $AXO_LIBNAME $AXO_BUILD_DIR/Release-iphoneos/$AXO_LIBNAME $AXO_BUILD_DIR/Release-iphonesimulator/$AXO_LIBNAME
+echo Library build AXO complete
+
+pwd
+
+mv $AXO_LIBNAME $AXO_RELEASE_DIR
+cp -r $AXO_BUILD_DIR/Release-iphoneos/AXOResources.bundle $AXO_RELEASE_DIR
+cp -r $AXO_BUILD_DIR/Release-iphoneos/include $AXO_RELEASE_DIR
+
+echo Removing AXO build directory
+rm -R $AXO_BUILD_DIR
+
+echo Process complete

@@ -1,0 +1,64 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:alertDialogStyle">@style/AlertDialogCustom</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="@android:style/Theme.Dialog">
+        <item name="android:alertDialogStyle">@style/CustomAlertDialogStyle</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
+    <style name="CustomAlertDialogStyle">
+        <item name="android:bottomBright">@color/white</item>
+        <item name="android:bottomDark">@color/white</item>
+        <item name="android:bottomMedium">@color/white</item>
+        <item name="android:centerBright">@color/white</item>
+        <item name="android:centerDark">@color/white</item>
+        <item name="android:centerMedium">@color/white</item>
+        <item name="android:fullBright">@color/white</item>
+        <item name="android:fullDark">@color/white</item>
+        <item name="android:topBright">@color/white</item>
+        <item name="android:topDark">@color/white</item>
+    </style>
+
+    <style name="ProgressDialogTheme" parent="android:Theme.Holo.Dialog">
+        <item name="android:alertDialogStyle">@style/CustomProgressAlertDialogStyle</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:textColorPrimary">@color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:textColor">@color/transparent</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="CustomProgressAlertDialogStyle">
+        <item name="android:bottomBright">@color/transparent</item>
+        <item name="android:bottomDark">@color/transparent</item>
+        <item name="android:bottomMedium">@color/transparent</item>
+        <item name="android:centerBright">@color/transparent</item>
+        <item name="android:centerDark">@color/transparent</item>
+        <item name="android:centerMedium">@color/transparent</item>
+        <item name="android:fullBright">@color/transparent</item>
+        <item name="android:fullDark">@color/transparent</item>
+        <item name="android:topBright">@color/transparent</item>
+        <item name="android:topDark">@color/transparent</item>
+    </style>
+
+    <style name="CustomShareDialogStyle">
+        <item name="android:bottomBright">@color/black</item>
+        <item name="android:bottomDark">@color/black</item>
+        <item name="android:bottomMedium">@color/black</item>
+        <item name="android:centerBright">@color/black</item>
+        <item name="android:centerDark">@color/black</item>
+        <item name="android:centerMedium">@color/black</item>
+        <item name="android:fullBright">@color/black</item>
+        <item name="android:fullDark">@color/black</item>
+        <item name="android:topBright">@color/black</item>
+        <item name="android:topDark">@color/black</item>
+    </style>
+
+</resources>

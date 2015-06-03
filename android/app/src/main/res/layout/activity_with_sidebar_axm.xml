@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<it.axant.axemas.libs.AnimationLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/animation_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@id/animation_layout_sidebar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <FrameLayout android:id="@+id/sidebarSection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+
+    <!-- To make LinearLayout clickable to trigger onContentTouchedWhenOpening()  -->
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@id/animation_layout_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:gravity="center">
+
+        <LinearLayout
+            android:id="@+id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content">
+        </LinearLayout>
+
+        <FrameLayout android:id="@+id/currentSection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/tabs"
+            />
+
+        <RelativeLayout
+            android:id="@+id/transparency_layer"
+            android:background="#FFFFFF"
+            android:layout_width="match_parent"
+            android:alpha="0"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+</it.axant.axemas.libs.AnimationLayout>

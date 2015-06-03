@@ -1,0 +1,43 @@
+#!/bin/bash
+
+
+#Release repository cleanup fase
+echo Cleaning up release directory
+RELEASE_REPO=../release-repo
+
+rm -R $RELEASE_REPO/android
+rm -R $RELEASE_REPO/html
+rm -R $RELEASE_REPO/ios
+mkdir $RELEASE_REPO/android
+mkdir $RELEASE_REPO/html
+mkdir $RELEASE_REPO/ios
+echo Cleaning up release directory
+
+#iOS build & clone
+echo Starting iOS project update
+IOS_BUILD_DIR=ios/axemas
+RELESE_DIR_IOS=$RELEASE_REPO/ios
+
+cd $IOS_BUILD_DIR
+./build_libaxemas
+cd ../../
+cp -r ios/axemas/release $RELESE_DIR_IOS
+echo Finished iOS project update
+
+#Android build & clone
+echo Starting Android project update
+RELESE_DIR_ANDROID=$RELEASE_REPO/android
+
+cd android
+./gradlew clean && ./gradlew assemble
+cp app/build/outputs/aar/app-release.aar ../$RELESE_DIR_ANDROID/axemas.aar
+echo Finished Android project update
+
+#HTML clone
+echo Starting HTML library update
+cd ..
+RELEASE_HTML_DIR=$RELEASE_REPO
+
+cp -r html $RELEASE_HTML_DIR
+echo Finished HTML library update
+
