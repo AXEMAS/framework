@@ -56,3 +56,16 @@ proguard/
 *.ipr
 *.iws
 .idea/
+
+#Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+venv/
+*.egg-info/
+.installed.cfg
+*.egg
+commands/dist/
+

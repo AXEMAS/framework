@@ -45,4 +45,5 @@ cd ..
 
 cp -r html $RELEASE_HTML_DIR
 echo Finished HTML library update
-echo Release \done, don\'t forget to commit and tag new version
+echo Release \hg st
+done, don\'t forget to commit and tag new version

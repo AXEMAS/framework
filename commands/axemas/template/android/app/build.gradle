@@ -1,0 +1,45 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.1.0"
+
+    defaultConfig {
+        applicationId "it.axant.axemas"
+        minSdkVersion 15
+        targetSdkVersion 19
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:support-v4:21.0.0'
+    compile(name:'axemas', ext:'aar')
+}
+
+loadApplicationConfiguration()
+
+def loadApplicationConfiguration() {
+    def environment = hasProperty('env') ? env : 'dev'
+    ext.environment = environment
+    println "Environment is set to $environment"
+
+    def configFile = file('config.groovy')
+    def config = new ConfigSlurper().parse(configFile.toURL())
+    File settings = new File("${projectDir.path}/src/main/res/values/config.xml")
+
+    settings.write(config[environment])
+}

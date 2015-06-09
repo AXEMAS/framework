@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+        <link href="ratchet/css/ratchet.min.css" rel="stylesheet">
+        <link href="axemas/axemas.css" rel="stylesheet">
+    </head>
+    <body>
+
+        <div class="container">
+            <ul class="table-view">
+                <li class="table-view-divider" style="padding-top: 20px;">SIDEBAR</li>
+                <li class="table-view-cell media">
+                    <a id="home-link">
+                        <span class="media-object pull-left icon icon-refresh"></span>
+                        <div class="media-body">
+                            Index
+                            <p>
+                                Clears stack and loads Index page.
+                            </p>
+                        </div>
+                    </a>
+                </li>
+                <li class="table-view-cell media">
+                    <a id="people-link">
+                        <span class="media-object pull-left icon icon-gear"></span>
+                        <div class="media-body">
+                            Settings
+                            <p>
+                                Clears stack and loads Settings page.
+                            </p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <script src="js/jquery-2.1.0.min.js"></script>
+        <script src="axemas/gestures.js"></script>
+        <script src="axemas/axemas.js"></script>
+        <script>
+            $(function() {
+                $('#home-link').on('singletap', function() {
+                        axemas.gotoFromSidebar({url: 'www/index.html',
+                                               'toggleSidebarIcon': 'slide_icon',
+                                               'stackMaintainedElements':'0'});
+                });
+                $('#people-link').on('singletap', function() {
+                        axemas.gotoFromSidebar({url: 'www/settings.html',
+                                               'toggleSidebarIcon': 'slide_icon',
+                                               'stackMaintainedElements':'0'});
+                });
+              });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,12 @@
+Metadata-Version: 1.1
+Name: axemas
+Version: 0.0.4
+Summary: Quickstart script for gearbox that setups a new mobile project using AXEMAS.
+Home-page: UNKNOWN
+Author: AXANT
+Author-email: tech@axant.it
+License: MIT
+Description: UNKNOWN
+Keywords: axemas quickstart
+Platform: UNKNOWN
+Classifier: Framework :: Setuptools Plugin

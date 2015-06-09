@@ -1,0 +1,68 @@
+package {{package_loc}}.{{package_company}}.{{package_name}};
+
+import android.os.Build;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import it.axant.axemas.JavascriptBridge;
+import it.axant.axemas.NavigationSectionsManager;
+import it.axant.axemas.SectionFragment;
+
+public class IndexSectionController extends BaseSectionController {
+
+    public IndexSectionController(SectionFragment section) {
+        super(section);
+    }
+
+    @Override
+    public void sectionWillLoad() {
+
+        this.section.getJSBridge().registerHandler("open-sidebar-from-native", new JavascriptBridge.Handler() {
+            @Override
+            public void call(Object data, JavascriptBridge.Callback callback) {
+                NavigationSectionsManager.toggleSidebar(section.getActivity(), true);
+            }
+        });
+
+        this.section.getJSBridge().registerHandler("send-device-name-from-native-to-js", new JavascriptBridge.Handler() {
+            @Override
+            public void call(Object data, JavascriptBridge.Callback callback) {
+                JSONObject deviceInfo = new JSONObject();
+                try {
+                    deviceInfo.put("name", Build.MODEL);
+                    deviceInfo.put("other", Build.SERIAL);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                section.getJSBridge().callJS("display-device-model", deviceInfo, new JavascriptBridge.AndroidCallback() {
+                    @Override
+                    public void call(JSONObject data) {
+                        //empty
+                    }
+                });
+            }
+        });
+
+        this.section.getJSBridge().registerHandler("open-native-controller", new JavascriptBridge.Handler() {
+            @Override
+            public void call(Object data, JavascriptBridge.Callback callback) {
+                JSONObject datum = new JSONObject();
+                try {
+                    datum.put("url", "www/index.html");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                NavigationSectionsManager.goTo(section.getActivity(), datum);
+            }
+        });
+
+
+        this.section.getJSBridge().registerHandler("push-native-section", new JavascriptBridge.Handler() {
+            @Override
+            public void call(Object data, JavascriptBridge.Callback callback) {
+                NavigationSectionsManager.pushFragment(section.getActivity(), new NativeFragment());
+            }
+        });
+    }
+}
