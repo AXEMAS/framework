@@ -1,22 +1,29 @@
 #!/bin/bash
 
+RELEASE_DIR=../releases
+RELESE_DIR_ANDROID=$RELEASE_DIR/android
+RELEASE_HTML_DIR=$RELEASE_DIR
+RELESE_DIR_IOS=$RELEASE_DIR/ios
+IOS_BUILD_DIR=ios/axemas
 
 #Release repository cleanup fase
-echo Cleaning up release directory
-RELEASE_REPO=../release-repo
 
-rm -R $RELEASE_REPO/android
-rm -R $RELEASE_REPO/html
-rm -R $RELEASE_REPO/ios
-mkdir $RELEASE_REPO/android
-mkdir $RELEASE_REPO/html
-mkdir $RELEASE_REPO/ios
+if ! [ -d $EXAMPLES_REPO ]; then
+    echo Cloning Examples Repo
+    mkdir $RELEASE_DIR
+    git clone https://github.com/AXEMAS/releases.git $EXAMPLES_REPO 
+fi
+
+rm -R $RELEASE_DIR/android
+rm -R $RELEASE_DIR/html
+rm -R $RELEASE_DIR/ios
+mkdir $RELEASE_DIR/android
+mkdir $RELEASE_DIR/html
+mkdir $RELEASE_DIR/ios
 echo Cleaning up release directory
 
 #iOS build & clone
 echo Starting iOS project update
-IOS_BUILD_DIR=ios/axemas
-RELESE_DIR_IOS=$RELEASE_REPO/ios
 
 cd $IOS_BUILD_DIR
 ./build_libaxemas
@@ -26,7 +33,6 @@ echo Finished iOS project update
 
 #Android build & clone
 echo Starting Android project update
-RELESE_DIR_ANDROID=$RELEASE_REPO/android
 
 cd android
 ./gradlew clean && ./gradlew assemble
@@ -36,8 +42,7 @@ echo Finished Android project update
 #HTML clone
 echo Starting HTML library update
 cd ..
-RELEASE_HTML_DIR=$RELEASE_REPO
 
 cp -r html $RELEASE_HTML_DIR
 echo Finished HTML library update
-
+echo Release \done, don\'t forget to commit and tag new version
