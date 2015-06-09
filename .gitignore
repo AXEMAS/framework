@@ -1,5 +1,7 @@
 syntax: glob
 
+ios/axemas/release/
+
 #Python Files
 venv/
 

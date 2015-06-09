@@ -28,6 +28,8 @@ import org.json.JSONObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import it.axant.axemas.libs.SharedStorage;
+
 
 @SuppressLint("ValidFragment")
 public class SectionFragment extends Fragment {
@@ -222,6 +224,44 @@ public class SectionFragment extends Fragment {
                 callback.call();
             }
         });
+
+        this.jsbridge.registerHandler("storeData", new JavascriptBridge.Handler() {
+            @Override
+            public void call(Object data, JavascriptBridge.Callback callback) {
+                JSONObject jsonData = (JSONObject) data;
+                Log.d("axemas", "storeData: "+jsonData.toString());
+                try {
+                    SharedStorage.store((AXMActivity) getActivity(), jsonData.getString("key"),jsonData.getString("value"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        this.jsbridge.registerHandler("fetchData", new JavascriptBridge.Handler() {
+            @Override
+            public void call(Object data, JavascriptBridge.Callback callback) {
+                String key = (String) data;
+                JSONObject obj = new JSONObject();
+                Log.d("axemas", "fetchData: "+key);
+                try {
+                    obj.put(key, SharedStorage.getValueForKey((AXMActivity) getActivity(), key));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                callback.call(obj);
+            }
+        });
+
+        this.jsbridge.registerHandler("removeData", new JavascriptBridge.Handler() {
+            @Override
+            public void call(Object data, JavascriptBridge.Callback callback) {
+                String key = (String) data;
+                Log.d("axemas", "removeData: "+key);
+                SharedStorage.removeValue((AXMActivity) getActivity(), key);
+            }
+        });
+
 
         this.jsbridge.registerHandler("dialog", new JavascriptBridge.Handler() {
             void addDialogButton(AlertDialog.Builder builder, JSONArray buttons,

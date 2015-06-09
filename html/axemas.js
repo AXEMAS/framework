@@ -51,28 +51,17 @@
         return 'unsupported';
     };
 
-    axemas.storeData = function(key, value){
-        if(typeof(localStorage) !== "undefined") {
-            localStorage.setItem(key, value);
-        } else {
-            alert("local storage is unavailable");
-        }
+    axemas.storeData = function(key, value)
+        axemas.call('storeData', {'key': key,
+                                  'value': value});
     };
 
     axemas.fetchData = function(key){
-        if(typeof(localStorage) !== "undefined") {
-            return localStorage.getItem(key);
-        } else {
-            alert("local storage is unavailable");
-        }
+        axemas.call('fetchData', key);
     };
 
     axemas.removeData = function(key){
-        if(typeof(localStorage) !== "undefined") {
-            localStorage.removeItem(key);
-        } else {
-            alert("local storage is unavailable");
-        }
+        axemas.call('removeData', key);
     };
 
     axemas.call = function(handlerName, data, responseCallback) {

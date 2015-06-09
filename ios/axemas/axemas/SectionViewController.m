@@ -13,6 +13,7 @@
 #import "NavigationSectionsManager.h"
 #import <objc/runtime.h>
 #import "SWRevealViewController.h"
+#import "SharedStorage.h"
 
 @interface AXMWebView : UIWebView
 
@@ -268,6 +269,35 @@ navigationType:(UIWebViewNavigationType)navigationType {
     [self.bridge registerHandler:@"gotoFromSidebar" handler:^(id data, WVJBResponseCallback responseCallback) {
         [NavigationSectionsManager goto:data animated:NO];
         [[NavigationSectionsManager activeSidebarController] revealToggleAnimated:YES];
+        responseCallback(nil);
+    }];
+    
+    [self.bridge registerHandler:@"storeData" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSDictionary * dataDict = (NSDictionary*)data;
+        NSLog(@"storeData: %@",dataDict);
+        [SharedStorage store:[dataDict objectForKey:@"value"] withKey:[dataDict objectForKey:@"key"]];
+        responseCallback(nil);
+    }];
+        
+    [self.bridge registerHandler:@"fetchData" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSString * key = (NSString*) data;
+        NSLog(@"fetchData: %@",key);
+
+        NSMutableDictionary *mutableParameters = [[NSMutableDictionary alloc] init];
+        NSString *value = [SharedStorage getValueFrom:key];
+        if (value) {
+            [mutableParameters setObject:value forKey:key];
+        } else {
+            [mutableParameters setObject:@"" forKey:key];
+        }
+        responseCallback(mutableParameters);
+    }];
+    
+    [self.bridge registerHandler:@"removeData" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSString * key = (NSString*)data;
+        NSLog(@"removeData: %@", key);
+        
+        [SharedStorage removeValueFrom:key];
         responseCallback(nil);
     }];
     [self.bridge registerHandler:@"dialog" handler:^(id data, WVJBResponseCallback responseCallback) {

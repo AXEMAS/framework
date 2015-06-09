@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3CE6F46F1ABA161F00F2E9AA /* NavigationControllerCustomAnimations.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE6F46E1ABA161F00F2E9AA /* NavigationControllerCustomAnimations.m */; };
+		55DD254A1B1FB0BD00C4ED01 /* SharedStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 55DD25491B1FB0BD00C4ED01 /* SharedStorage.m */; };
+		55F305D41B21C0EA00BFE3BA /* SharedStorage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 55DD25481B1FB0BD00C4ED01 /* SharedStorage.h */; };
 		5A0E7D5C1A6D25590065244C /* SectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A0E7D5B1A6D25590065244C /* SectionViewController.xib */; };
 		5A0E7EAD1A6E96000065244C /* SWRevealViewController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A7A59FF1A69B77C00192AA3 /* SWRevealViewController.h */; };
 		5A7A59F51A69B73C00192AA3 /* SectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A59EC1A69B73C00192AA3 /* SectionViewController.m */; };
@@ -55,6 +57,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				55F305D41B21C0EA00BFE3BA /* SharedStorage.h in CopyFiles */,
 				5A0E7EAD1A6E96000065244C /* SWRevealViewController.h in CopyFiles */,
 				5A7A5A021A69B80600192AA3 /* SectionViewController.h in CopyFiles */,
 				5A7A5A031A69B80600192AA3 /* NavigationSectionsManager.h in CopyFiles */,
@@ -69,6 +72,9 @@
 /* Begin PBXFileReference section */
 		3CE6F46D1ABA161F00F2E9AA /* NavigationControllerCustomAnimations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationControllerCustomAnimations.h; sourceTree = "<group>"; };
 		3CE6F46E1ABA161F00F2E9AA /* NavigationControllerCustomAnimations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationControllerCustomAnimations.m; sourceTree = "<group>"; };
+		55DD25481B1FB0BD00C4ED01 /* SharedStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedStorage.h; sourceTree = "<group>"; };
+		55DD25491B1FB0BD00C4ED01 /* SharedStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedStorage.m; sourceTree = "<group>"; };
+		55F305D71B21C13000BFE3BA /* SharedStorage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SharedStorage.m; path = axemas/SharedStorage.m; sourceTree = "<group>"; };
 		5A0E7D511A6D19240065244C /* axemas.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = axemas.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A0E7D541A6D19240065244C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A0E7D5B1A6D25590065244C /* SectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionViewController.xib; sourceTree = "<group>"; };
@@ -137,6 +143,7 @@
 		5A7A59C71A69B6B500192AA3 = {
 			isa = PBXGroup;
 			children = (
+				55F305D71B21C13000BFE3BA /* SharedStorage.m */,
 				5A0E7E8F1A6E94740065244C /* AXO.xcodeproj */,
 				5A7A59D21A69B6B500192AA3 /* axemas */,
 				5A0E7D521A6D19240065244C /* axemasResources */,
@@ -179,6 +186,8 @@
 				5A7A59FE1A69B76E00192AA3 /* SWRevealViewController */,
 				5A7A59FB1A69B76200192AA3 /* Reachability.h */,
 				5A7A59FC1A69B76200192AA3 /* Reachability.m */,
+				55DD25481B1FB0BD00C4ED01 /* SharedStorage.h */,
+				55DD25491B1FB0BD00C4ED01 /* SharedStorage.m */,
 			);
 			name = libs;
 			sourceTree = "<group>";
@@ -311,6 +320,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55DD254A1B1FB0BD00C4ED01 /* SharedStorage.m in Sources */,
 				5A7A5A011A69B77C00192AA3 /* SWRevealViewController.m in Sources */,
 				5A7A59F51A69B73C00192AA3 /* SectionViewController.m in Sources */,
 				5A7A59F81A69B73C00192AA3 /* WebViewJavascriptBridge.m in Sources */,
