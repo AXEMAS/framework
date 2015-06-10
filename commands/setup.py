@@ -1,7 +1,7 @@
 import os
 from setuptools import setup
 
-version = "0.0.4"
+version = "0.0.5"
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -33,4 +33,7 @@ setup(name='axemas',
           'gearbox.commands': [
               'axemas-setup = axemas.command:MakeBaseProject',
           ]
-      })
+      },
+      include_package_data=True,
+      package_data={'axemas': ['commands/axemas/template/*/*/*/*/*/*/*/*']}
+     )
