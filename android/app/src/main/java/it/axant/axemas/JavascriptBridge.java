@@ -92,6 +92,10 @@ public class JavascriptBridge {
             callbackId = this.generateCallbackId();
             this.registeredCallbacks.put(callbackId, callback);
         }
+
+        if (data == null)
+            data = new JSONObject();
+
         String jsMessage = "WebViewJavascriptBridge._callJSHandler(\""+handlerName+"\", "+data.toString()+", \""+callbackId+"\");";
         this.runJavascript(jsMessage);
     }
