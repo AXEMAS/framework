@@ -52,6 +52,10 @@ public class NavigationSectionsManager {
         ((AXMActivity) context).loadContent(fragment);
     }
 
+    public static SectionFragment activeFragment(Context context) {
+        return (SectionFragment)((AXMActivity) context).getFragmentManager().findFragmentByTag("web_fragment");
+    }
+
     public static void sidebarButtonVisibility(Context context, boolean visible) {
         ((AXMActivity) context).sidebarButtonVisibility(visible);
     }
