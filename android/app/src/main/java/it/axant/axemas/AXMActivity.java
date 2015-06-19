@@ -19,12 +19,15 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,6 +80,30 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
     @Override
     public void onSidebarClosed() {
         // do something after closing the sidebar
+    }
+
+    public void enableFullSizeSidebar() {
+        this.getActionBar().hide();
+
+        TypedValue tv = new TypedValue();
+        this.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
+        int actionBarHeight = getResources().getDimensionPixelSize(tv.resourceId);
+
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                actionBarHeight
+        );
+        params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        View customBar = this.getActionBar().getCustomView();
+        this.getActionBar().setCustomView(new View(this));
+
+        RelativeLayout axemasLayout = ((RelativeLayout)findViewById(it.axant.axemas.R.id.animation_layout_content));
+        axemasLayout.addView(customBar, params);
+
+        View axemasSectionContainer = axemasLayout.findViewById(it.axant.axemas.R.id.currentSection);
+        RelativeLayout.LayoutParams contentLayout = (RelativeLayout.LayoutParams)axemasSectionContainer.getLayoutParams();
+        contentLayout.setMargins(0, actionBarHeight, 0, 0);
+        axemasSectionContainer.setLayoutParams(contentLayout);
     }
 
     @Override
