@@ -49,7 +49,7 @@ public class IndexSectionController extends BaseSectionController {
             public void call(Object data, JavascriptBridge.Callback callback) {
                 JSONObject datum = new JSONObject();
                 try {
-                    datum.put("url", "www/index.html");
+                    datum.put("url", "www/sections/index/section.html");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
