@@ -82,12 +82,12 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
         // do something after closing the sidebar
     }
 
-    public void enableFullSizeSidebar() {
+    public View enableFullSizeSidebar(int height) {
         this.getActionBar().hide();
 
         TypedValue tv = new TypedValue();
         this.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
-        int actionBarHeight = getResources().getDimensionPixelSize(tv.resourceId);
+        int actionBarHeight = height == -1 ? getResources().getDimensionPixelSize(tv.resourceId) : height;
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -104,8 +104,14 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
         RelativeLayout.LayoutParams contentLayout = (RelativeLayout.LayoutParams)axemasSectionContainer.getLayoutParams();
         contentLayout.setMargins(0, actionBarHeight, 0, 0);
         axemasSectionContainer.setLayoutParams(contentLayout);
+      
+        return customBar;
     }
-
+  
+    public View enableFullSizeSidebar() {
+        return this.enableFullSizeSidebar(-1);
+    }
+      
     @Override
     public boolean onContentTouchedWhenOpening() {
         // sidebar is going to be closed, do something with the data here
@@ -118,6 +124,10 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
             animationLayout.openSidebar();
         else
             animationLayout.closeSidebar();
+    }
+  
+    protected void toggleSidebar() {
+        animationLayout.toggleSidebar();
     }
     // ------------------------
 

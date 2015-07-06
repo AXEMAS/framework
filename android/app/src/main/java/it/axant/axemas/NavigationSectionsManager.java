@@ -63,6 +63,10 @@ public class NavigationSectionsManager {
     public static void toggleSidebar(Context context, boolean visible) {
         ((AXMActivity) context).toggleSidebar(visible);
     }
+  
+    public static void toggleSidebar(Context context) {
+        ((AXMActivity) context).toggleSidebar();
+    }
 
     public static void showProgressDialog(Context context) {
         ((AXMActivity) context).showProgressDialog();
