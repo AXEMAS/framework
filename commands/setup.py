@@ -16,7 +16,7 @@ except IOError:
 
 setup(name='axemas',
       version=version,
-      url='',
+      url='axemas.readthedocs.org',
       keywords="axemas quickstart",
       author='AXANT',
       author_email='tech@axant.it',

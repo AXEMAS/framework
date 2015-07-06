@@ -96,8 +96,8 @@ class MakeBaseProject(TemplateCommand):
             os.system(
                 "mv ./{output_dir}/android/app/src/main/java/it ./{output_dir}/android/app/src/main/java/{loc}".format(
                     output_dir=opts.output_dir, package=opts.package_name, loc=opts.package_loc))
-		
-		os.system("chmod +x ./{output_dir}/android/gradlew".format(output_dir=opts.output_dir))
+
+        os.system("chmod +x ./{output_dir}/android/gradlew".format(output_dir=opts.output_dir))
 
         # rename iOS project
         os.system(

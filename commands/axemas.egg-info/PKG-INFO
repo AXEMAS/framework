@@ -1,8 +1,8 @@
 Metadata-Version: 1.1
 Name: axemas
-Version: 0.0.5
+Version: 0.0.6
 Summary: Quickstart script for gearbox that setups a new mobile project using AXEMAS.
-Home-page: UNKNOWN
+Home-page: axemas.readthedocs.org
 Author: AXANT
 Author-email: tech@axant.it
 License: MIT
