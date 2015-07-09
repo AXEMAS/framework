@@ -38,4 +38,5 @@ public class AXMSectionController {
     public void sectionFragmentOnSaveInstanceState(Bundle outState) { }
     public void sectionFragmentOnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) { }
     public void sectionFragmentOnActivityResult(int requestCode, int resultCode, Intent data) { }
+    public void actionbarRightButtonAction() {}
 }

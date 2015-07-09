@@ -48,11 +48,14 @@ public class SectionFragment extends Fragment {
     // retain values
     private String fragmentTitle = null;
     private String toggleSidebarIcon = null;
+    private String actionbarRightIcon = null;
+
     private boolean webViewLoading = false;
 
     public static SectionFragment newInstance(JSONObject options) {
         String url = options.optString("url");
         String toggleSidebarIcon = options.optString("toggleSidebarIcon", null);
+        String actionbarRightIcon = options.optString("actionbarRightIcon", null);
 
         SectionFragment fragment = new SectionFragment();
 
@@ -67,6 +70,7 @@ public class SectionFragment extends Fragment {
         }
 
         args.putString("toggleSidebarIcon", toggleSidebarIcon);
+        args.putString("actionbarRightIcon", actionbarRightIcon);
 
         fragment.setArguments(args);
         return fragment;
@@ -111,6 +115,7 @@ public class SectionFragment extends Fragment {
 
             url = arguments.getString(URL_PARAM);
             toggleSidebarIcon = arguments.getString("toggleSidebarIcon");
+            actionbarRightIcon = arguments.getString("actionbarRightIcon");
             String extra_params = arguments.getString(URL_EXTRA_PARAMETERS);
 
             if (!url.contains("://"))
@@ -333,6 +338,7 @@ public class SectionFragment extends Fragment {
             fragmentTitle = savedInstanceState.getString(FRAGMENT_TITLE);
             webViewLoading = savedInstanceState.getBoolean("webViewLoading");
             toggleSidebarIcon = savedInstanceState.getString("toggleSidebarIcon");
+            actionbarRightIcon = savedInstanceState.getString("actionbarRightIcon");
             webView.restoreState(savedInstanceState);
         }
 
@@ -394,6 +400,16 @@ public class SectionFragment extends Fragment {
                 axmActivity.setSideBarIcon(toggleSidebarIcon);
                 axmActivity.sidebarButtonVisibility(true);
             }
+
+
+            if (actionbarRightIcon == null)
+                axmActivity.actionBarButtonRightVisibility(false);
+            else {
+                axmActivity.setActionBarController(this.controller);
+                axmActivity.setRightBarIcon(actionbarRightIcon);
+                axmActivity.actionBarButtonRightVisibility(true);
+            }
+
         }
 
         if (this.controller != null)
@@ -414,6 +430,7 @@ public class SectionFragment extends Fragment {
             outState.putString(FRAGMENT_TITLE, fragmentTitle);
             outState.putBoolean("webViewLoading", webViewLoading);
             outState.putString("toggleSidebarIcon", toggleSidebarIcon);
+            outState.putString("actionbarRightIcon", actionbarRightIcon);
         }
 
         super.onSaveInstanceState(outState);

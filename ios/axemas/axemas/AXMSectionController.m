@@ -38,5 +38,8 @@
     return YES;
 }
 
+- (void) navigationbarRightButtonAction {
+
+}
 
 @end

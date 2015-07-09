@@ -48,6 +48,15 @@
             android:layout_height="match_parent"
             android:layout_weight="15">
 
+            <ImageButton
+                android:id="@+id/action_bar_right_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:padding="10dp"
+                android:background="#00000000"
+                android:scaleType="centerInside" />
+
         </LinearLayout>
 
     </LinearLayout>

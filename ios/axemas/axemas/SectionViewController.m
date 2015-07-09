@@ -83,6 +83,10 @@
     }
 }
 
+-(void) rightClickOnNavBarItem {
+    [self.registeredSectionController navigationbarRightButtonAction];
+}
+
 + (SectionViewController*)createWithData:(NSDictionary*)data {
     SectionViewController *viewController = [[SectionViewController alloc] initWithNibName:@"SectionViewController"
                                                                                     bundle:nil];
@@ -97,6 +101,19 @@
         
         viewController.navigationItem.leftBarButtonItem = revealButtonItem;
         //viewController.navigationItem.leftBarButtonItem.customView.hidden=YES;
+    }
+    
+    if (data[@"actionBarRightIcon"]) {
+        UIImage* ticket_image = [UIImage imageNamed:data[@"actionBarRightIcon"]];
+        CGRect frameimg = CGRectMake(0, 0, ticket_image.size.width/2, ticket_image.size.height/2);
+        UIButton *rightButton = [[UIButton alloc] initWithFrame:frameimg];
+        [rightButton setBackgroundImage:ticket_image forState:UIControlStateNormal];
+        [rightButton addTarget:viewController action:@selector(rightClickOnNavBarItem)
+             forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *rigthBarButton =[[UIBarButtonItem alloc] initWithCustomView:rightButton];
+        viewController.navigationItem.rightBarButtonItem = rigthBarButton;
+        viewController.navigationItem.rightBarButtonItem.customView.hidden = NO;
+        
     }
     
     [viewController setupWithData:data];

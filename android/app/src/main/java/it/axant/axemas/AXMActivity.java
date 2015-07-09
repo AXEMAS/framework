@@ -53,6 +53,7 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
     private final IntentFilter connectivityFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
     private boolean monitoringAvailableConnection = true;
     private boolean connectionStatus = false;
+    private AXMSectionController actionbarController = null;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -80,6 +81,11 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
     @Override
     public void onSidebarClosed() {
         // do something after closing the sidebar
+    }
+
+    // ActionBar -------------
+    public void setActionBarController(AXMSectionController controller) {
+        this.actionbarController = controller;
     }
 
     public View enableFullSizeSidebar(int height) {
@@ -134,6 +140,7 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
     // Action Bar -------
     private TextView actionBarTitle = null;
     private ImageButton actionBarButton = null;
+    private ImageButton actionBarButtonRight = null;
 
     private void _replaceActionBar() {
         ActionBar mActionBar = getActionBar();
@@ -152,14 +159,29 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
             }
         });
 
+        actionBarButtonRight = (ImageButton) view.findViewById(R.id.action_bar_right_button);
+        actionBarButtonRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                actionbarController.actionbarRightButtonAction();
+            }
+        });
+
         mActionBar.setCustomView(view);
         mActionBar.setDisplayShowCustomEnabled(true);
     }
 
     protected void setSideBarIcon(String resourceName) {
-        Log.d("axemas-debug", "Setting ICON " + String.valueOf(resourceName) + " -> " + String.valueOf(actionBarButton));
+        Log.d("axemas-debug", "Setting actionBarButton ICON " + String.valueOf(resourceName) + " -> " + String.valueOf(actionBarButton));
         if (actionBarButton != null) {
             actionBarButton.setImageResource(getResources().getIdentifier(resourceName, "drawable", getPackageName()));
+        }
+    }
+
+    protected void setRightBarIcon(String resourceName) {
+        Log.d("axemas-debug", "Setting actionBarButtonRight ICON " + String.valueOf(resourceName) + " -> " + String.valueOf(actionBarButtonRight));
+        if (actionBarButtonRight != null) {
+            actionBarButtonRight.setImageResource(getResources().getIdentifier(resourceName, "drawable", getPackageName()));
         }
     }
 
@@ -184,6 +206,12 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
         if (actionBarButton == null)
             return;
         actionBarButton.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    protected void actionBarButtonRightVisibility(boolean visible) {
+        if (actionBarButtonRight == null)
+            return;
+        actionBarButtonRight.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
     // ----------------------------
 

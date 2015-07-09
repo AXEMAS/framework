@@ -20,5 +20,6 @@
 + (NSString*)activeSidebarIconName;
 - (void)forceContentLoad;
 - (NSString*)requestedNavigationAnimation;
+- (void) rightClickOnNavBarItem;
 
 @end
