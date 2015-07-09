@@ -133,6 +133,7 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
 
     // Action Bar -------
     private TextView actionBarTitle = null;
+    private ImageButton actionBarBackButton = null;
     private ImageButton actionBarButton = null;
     private ImageButton actionBarButtonRight = null;
 
@@ -144,6 +145,14 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
         View view = LayoutInflater.from(this).inflate(R.layout.axemas_action_bar, null);
         actionBarTitle = (TextView) view.findViewById(R.id.action_bar_title);
         actionBarTitle.setText("");
+
+        actionBarBackButton = (ImageButton) view.findViewById(R.id.action_bar_back_button);
+        actionBarBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popFragments(1);
+            }
+        });
 
         actionBarButton = (ImageButton) view.findViewById(R.id.action_bar_button);
         actionBarButton.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +182,13 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
         }
     }
 
+    protected void setBackBarIcon(String resourceName) {
+        Log.d("axemas-debug", "Setting actionBarButton ICON " + String.valueOf(resourceName) + " -> " + String.valueOf(actionBarBackButton));
+        if (actionBarBackButton != null) {
+            actionBarBackButton.setImageResource(getResources().getIdentifier(resourceName, "drawable", getPackageName()));
+        }
+    }
+
     protected void setRightBarIcon(String resourceName) {
         Log.d("axemas-debug", "Setting actionBarButtonRight ICON " + String.valueOf(resourceName) + " -> " + String.valueOf(actionBarButtonRight));
         if (actionBarButtonRight != null) {
@@ -195,6 +211,12 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
     protected void setTitle(String title) {
         if (actionBarTitle != null)
             actionBarTitle.setText(title);
+    }
+
+    protected void actionBarButtonBackVisibility(boolean visible) {
+        if (actionBarBackButton == null)
+            return;
+        actionBarBackButton.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     protected void sidebarButtonVisibility(boolean visible) {

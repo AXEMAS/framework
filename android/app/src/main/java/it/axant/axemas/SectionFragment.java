@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -393,6 +394,14 @@ public class SectionFragment extends Fragment {
             // We only recover title and sidebar icon if are are not the sidebar itself.
             if (fragmentTitle != null)
                 axmActivity.setTitle(fragmentTitle);
+
+            //Back functionality
+            FragmentManager fragmentManager = getFragmentManager();
+            if(fragmentManager.getBackStackEntryCount() > 1) {
+                axmActivity.setBackBarIcon("back");
+                axmActivity.actionBarButtonBackVisibility(true);
+            }
+
 
             if (toggleSidebarIcon == null)
                 axmActivity.sidebarButtonVisibility(false);
