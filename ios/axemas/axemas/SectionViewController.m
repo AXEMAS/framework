@@ -103,8 +103,8 @@
         //viewController.navigationItem.leftBarButtonItem.customView.hidden=YES;
     }
     
-    if (data[@"actionBarRightIcon"]) {
-        UIImage* ticket_image = [UIImage imageNamed:data[@"actionBarRightIcon"]];
+    if (data[@"actionbarRightIcon"]) {
+        UIImage* ticket_image = [UIImage imageNamed:data[@"actionbarRightIcon"]];
         CGRect frameimg = CGRectMake(0, 0, ticket_image.size.width/2, ticket_image.size.height/2);
         UIButton *rightButton = [[UIButton alloc] initWithFrame:frameimg];
         [rightButton setBackgroundImage:ticket_image forState:UIControlStateNormal];
