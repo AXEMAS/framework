@@ -53,7 +53,6 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
     private final IntentFilter connectivityFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
     private boolean monitoringAvailableConnection = true;
     private boolean connectionStatus = false;
-    private AXMSectionController actionbarController = null;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -81,11 +80,6 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
     @Override
     public void onSidebarClosed() {
         // do something after closing the sidebar
-    }
-
-    // ActionBar -------------
-    public void setActionBarController(AXMSectionController controller) {
-        this.actionbarController = controller;
     }
 
     public View enableFullSizeSidebar(int height) {
@@ -163,7 +157,8 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
         actionBarButtonRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                actionbarController.actionbarRightButtonAction();
+                SectionFragment currentSectionFragment = NavigationSectionsManager.activeFragment(AXMActivity.this);
+                currentSectionFragment.getRegisteredSectionController().actionbarRightButtonAction();
             }
         });
 

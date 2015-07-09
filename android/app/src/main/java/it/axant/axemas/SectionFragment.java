@@ -405,7 +405,6 @@ public class SectionFragment extends Fragment {
             if (actionbarRightIcon == null)
                 axmActivity.actionBarButtonRightVisibility(false);
             else {
-                axmActivity.setActionBarController(this.controller);
                 axmActivity.setRightBarIcon(actionbarRightIcon);
                 axmActivity.actionBarButtonRightVisibility(true);
             }
