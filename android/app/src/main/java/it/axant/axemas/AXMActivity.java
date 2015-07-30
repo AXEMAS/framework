@@ -632,6 +632,10 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
         pushFragment(fragment, "native_fragment");
     }
 
+    protected void loadContent(int fragmentsToPop) {
+        popFragments(fragmentsToPop);
+    }
+
     protected void makeApplicationRootController(Fragment fragment, String sidebarUrl) {
         pushFragment(fragment, "native_fragment");
         makeSideBar(sidebarUrl);

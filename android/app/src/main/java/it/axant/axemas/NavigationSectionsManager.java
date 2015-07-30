@@ -52,6 +52,9 @@ public class NavigationSectionsManager {
         ((AXMActivity) context).loadContent(fragment);
     }
 
+    public static void popFragments(Context context, int fragmentsToPop) {
+        ((AXMActivity) context).loadContent(fragmentsToPop);
+    }
     public static SectionFragment activeFragment(Context context) {
         return (SectionFragment)((AXMActivity) context).getFragmentManager().findFragmentByTag("web_fragment");
     }
