@@ -24,10 +24,6 @@ public class NavigationSectionsManager {
         ((AXMActivity) context).makeApplicationRootController(data, sidebarUrl);
     }
 
-    public static void setSideBarIcon(Context context, String resourceName) {
-        ((AXMActivity) context).setSideBarIcon(resourceName);
-    }
-
     public static void makeApplicationRootController(Context context, Fragment fragment, String sidebarUrl) {
         ((AXMActivity) context).makeApplicationRootController(fragment, sidebarUrl);
     }
@@ -48,27 +44,20 @@ public class NavigationSectionsManager {
         ((AXMActivity) context).loadContent(data);
     }
 
-    public static void pushFragment(Context context, Fragment fragment) {
-        ((AXMActivity) context).loadContent(fragment);
+    public static AXMNavigationController getActiveNavigationController(AXMActivity activity) {
+        return activity.getNavigationController();
     }
 
-    public static void popFragments(Context context, int fragmentsToPop) {
-        ((AXMActivity) context).loadContent(fragmentsToPop);
-    }
-    public static SectionFragment activeFragment(Context context) {
+    public static SectionFragment getActiveFragment(Context context) {
         return (SectionFragment)((AXMActivity) context).getFragmentManager().findFragmentByTag("web_fragment");
     }
 
-    public static void sidebarButtonVisibility(Context context, boolean visible) {
-        ((AXMActivity) context).sidebarButtonVisibility(visible);
+    public static AXMTabBarController getTabBarController(AXMActivity activity) {
+        return activity.getTabBarController();
     }
 
-    public static void toggleSidebar(Context context, boolean visible) {
-        ((AXMActivity) context).toggleSidebar(visible);
-    }
-  
-    public static void toggleSidebar(Context context) {
-        ((AXMActivity) context).toggleSidebar();
+    public static AXMSidebarController getSidebarController(AXMActivity activity) {
+        return activity.getSidebarController();
     }
 
     public static void showProgressDialog(Context context) {
@@ -89,10 +78,6 @@ public class NavigationSectionsManager {
 
     public static void enableBackButton(Context context, boolean toggle) {
         ((AXMActivity) context).enableBackButton(toggle);
-    }
-
-    public static void sidebarAnimationConfiguration(Context context, float alpha, int duration, String hexColor) {
-        ((AXMActivity) context).animationLayout.setAnimationDetails(alpha, duration, hexColor);
     }
 
     public static void store(Context context, String key, String value){

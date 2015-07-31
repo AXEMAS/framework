@@ -226,7 +226,7 @@ public class SectionFragment extends Fragment {
                 if (mListener != null)
                     mListener.activityLoadContent(jsonData);
                 if (getActivity() != null)
-                    ((AXMActivity) getActivity()).toggleSidebar(false);
+                    ((AXMActivity) getActivity()).getSidebarController().toggleSidebar(false);
                 callback.call();
             }
         });
@@ -403,11 +403,12 @@ public class SectionFragment extends Fragment {
             }
 
 
+            AXMSidebarController sidebarController = axmActivity.getSidebarController();
             if (toggleSidebarIcon == null)
-                axmActivity.sidebarButtonVisibility(false);
+                sidebarController.setSidebarButtonVisibility(false);
             else {
-                axmActivity.setSideBarIcon(toggleSidebarIcon);
-                axmActivity.sidebarButtonVisibility(true);
+                sidebarController.setSideBarButtonIcon(toggleSidebarIcon);
+                sidebarController.setSidebarButtonVisibility(true);
             }
 
 

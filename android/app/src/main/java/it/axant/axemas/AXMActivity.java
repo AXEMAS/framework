@@ -43,9 +43,8 @@ import com.splunk.mint.Mint;
 import it.axant.axemas.libs.AnimationLayout;
 
 
-public class AXMActivity extends Activity implements SectionFragment.SectionFragmentActivity, AnimationLayout.Listener {
+public class AXMActivity extends Activity implements SectionFragment.SectionFragmentActivity {
     private NetworkReceiver networkReceiver = new NetworkReceiver();
-    private JSONObject[] tabs;
     private Class defaultController = null;
     private HashMap<String, Class> registeredControllers = null;
     private boolean backButtonEnabled = true;
@@ -53,6 +52,10 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
     private final IntentFilter connectivityFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
     private boolean monitoringAvailableConnection = true;
     private boolean connectionStatus = false;
+    private AXMNavigationController _navigationController = null;
+    private AXMTabBarController _tabBarController = null;
+    private AXMSidebarController _sidebarController = null;
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -69,75 +72,15 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
     }
     //-----------------------------------------------------
 
-    // Sidebar -----------
-    protected AnimationLayout animationLayout;
 
-    @Override
-    public void onSidebarOpened() {
-        // do something after opening the sidebar
-    }
-
-    @Override
-    public void onSidebarClosed() {
-        // do something after closing the sidebar
-    }
-
-    public View enableFullSizeSidebar(int height) {
-        this.getActionBar().hide();
-
-        TypedValue tv = new TypedValue();
-        this.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
-        int actionBarHeight = height == -1 ? getResources().getDimensionPixelSize(tv.resourceId) : height;
-
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT,
-                actionBarHeight
-        );
-        params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        View customBar = this.getActionBar().getCustomView();
-        this.getActionBar().setCustomView(new View(this));
-
-        RelativeLayout axemasLayout = ((RelativeLayout)findViewById(it.axant.axemas.R.id.animation_layout_content));
-        axemasLayout.addView(customBar, params);
-
-        View axemasSectionContainer = axemasLayout.findViewById(it.axant.axemas.R.id.currentSection);
-        RelativeLayout.LayoutParams contentLayout = (RelativeLayout.LayoutParams)axemasSectionContainer.getLayoutParams();
-        contentLayout.setMargins(0, actionBarHeight, 0, 0);
-        axemasSectionContainer.setLayoutParams(contentLayout);
-      
-        return customBar;
-    }
-  
-    public View enableFullSizeSidebar() {
-        return this.enableFullSizeSidebar(-1);
-    }
-      
-    @Override
-    public boolean onContentTouchedWhenOpening() {
-        // sidebar is going to be closed, do something with the data here
-        animationLayout.closeSidebar();
-        return false;
-    }
-
-    protected void toggleSidebar(boolean visible) {
-        if (visible)
-            animationLayout.openSidebar();
-        else
-            animationLayout.closeSidebar();
-    }
-  
-    protected void toggleSidebar() {
-        animationLayout.toggleSidebar();
-    }
     // ------------------------
 
     // Action Bar -------
     private TextView actionBarTitle = null;
     private ImageButton actionBarBackButton = null;
-    private ImageButton actionBarButton = null;
     private ImageButton actionBarButtonRight = null;
 
-    private void _replaceActionBar() {
+    private View _replaceActionBar() {
         ActionBar mActionBar = getActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
@@ -150,15 +93,7 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
         actionBarBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popFragments(1);
-            }
-        });
-
-        actionBarButton = (ImageButton) view.findViewById(R.id.action_bar_button);
-        actionBarButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                animationLayout.toggleSidebar();
+                _navigationController.popFragments(1);
             }
         });
 
@@ -166,20 +101,14 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
         actionBarButtonRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SectionFragment currentSectionFragment = NavigationSectionsManager.activeFragment(AXMActivity.this);
+                SectionFragment currentSectionFragment = NavigationSectionsManager.getActiveFragment(AXMActivity.this);
                 currentSectionFragment.getRegisteredSectionController().actionbarRightButtonAction();
             }
         });
 
         mActionBar.setCustomView(view);
         mActionBar.setDisplayShowCustomEnabled(true);
-    }
-
-    protected void setSideBarIcon(String resourceName) {
-        Log.d("axemas-debug", "Setting actionBarButton ICON " + String.valueOf(resourceName) + " -> " + String.valueOf(actionBarButton));
-        if (actionBarButton != null) {
-            actionBarButton.setImageResource(getResources().getIdentifier(resourceName, "drawable", getPackageName()));
-        }
+        return view;
     }
 
     protected void setBackBarIcon(String resourceName) {
@@ -196,7 +125,7 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
         }
     }
 
-    protected void startCrashReporter(){
+    protected void startCrashReporter() {
         try {
             String key = getResources()
                     .getString(getResources()
@@ -206,6 +135,19 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
         catch(Resources.NotFoundException e){
             e.printStackTrace();
         }
+    }
+
+    public void onSidebarOpened() {
+        // do something after opening the sidebar
+    }
+
+    public void onSidebarClosed() {
+        // do something after closing the sidebar
+    }
+
+    public boolean onContentTouchedWhenOpening() {
+        // sidebar is going to be closed, do something with the data here
+        return false;
     }
 
     protected void setTitle(String title) {
@@ -219,20 +161,13 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
         actionBarBackButton.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
-    protected void sidebarButtonVisibility(boolean visible) {
-        if (actionBarButton == null)
-            return;
-        actionBarButton.setVisibility(visible ? View.VISIBLE : View.GONE);
-    }
-
     protected void actionBarButtonRightVisibility(boolean visible) {
         if (actionBarButtonRight == null)
             return;
         actionBarButtonRight.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
+
     // ----------------------------
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -312,135 +247,30 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
     }
     //----------------------------------------
 
-    // Fragment Stack ------------------------
-    private void animateTransaction(FragmentTransaction transaction) {
-        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out,
-                android.R.animator.fade_in, android.R.animator.fade_out);
+    protected AXMNavigationController getNavigationController() {
+        return _navigationController;
     }
 
-    private void pushFragment(final Fragment fragment, final String tag) {
-        if (fragment == null) {
-            Log.e("axemas", "Trying to Push NULL controller");
-            return;
-        }
-
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                animateTransaction(transaction);
-
-                JSONObject stackInfo = new JSONObject();
-                int selectedTabIdx = getSelectedTab();
-                if (selectedTabIdx != -1) {
-                    try {
-                        stackInfo.put("tabIdx", selectedTabIdx);
-                    } catch (JSONException e) {
-                        Log.e("axemas", "Failed to save current tab index");
-                        e.printStackTrace();
-                    }
-                }
-
-                transaction.replace(R.id.currentSection, fragment, tag);
-                transaction.addToBackStack(stackInfo.toString());
-
-                transaction.commit();
-            }
-        });
+    protected AXMTabBarController getTabBarController() {
+        return _tabBarController;
     }
 
-    private void popFragments(final int fragmentsToPop) {
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                FragmentManager fragmentManager = getFragmentManager();
-
-                int fragmentsLeft = fragmentsToPop;
-                while (fragmentsLeft > 0) {
-                    if (fragmentManager.getBackStackEntryCount() <= 1)
-                        break;
-
-                    --fragmentsLeft;
-                    fragmentManager.popBackStackImmediate();
-                }
-
-                String stackInfoString = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
-                try {
-                    JSONObject stackInfo = new JSONObject(stackInfoString);
-                    setSelectedTab(stackInfo.getInt("tabIdx"));
-                } catch (JSONException e) {
-                    Log.w("axemas", "Ignoring stackInfo: " + String.valueOf(stackInfoString));
-                }
-            }
-        });
+    protected  AXMSidebarController getSidebarController() {
+        return _sidebarController;
     }
-
-    private void popFragmentsAndMaintain(final int maintainedFragmentsArg) {
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                FragmentManager fragmentManager = getFragmentManager();
-
-                int maintainedFragments = Math.max(maintainedFragmentsArg, 1);
-                while (fragmentManager.getBackStackEntryCount() > maintainedFragments) {
-                    fragmentManager.popBackStackImmediate();
-                }
-
-                int stackTopIdx = fragmentManager.getBackStackEntryCount() - 1;
-                String stackInfoString = "";
-                try {
-                    stackInfoString = fragmentManager.getBackStackEntryAt(stackTopIdx).getName();
-                    JSONObject stackInfo = new JSONObject(stackInfoString);
-                    setSelectedTab(stackInfo.getInt("tabIdx"));
-                } catch (JSONException e) {
-                    Log.w("axemas", "Ignoring stackInfo: " + String.valueOf(stackInfoString));
-                }
-            }
-        });
-    }
-    //----------------------------------------
 
     protected void enableBackButton(boolean toggle) {
         backButtonEnabled = toggle;
     }
 
-    private boolean doubleBackToExitPressedOnce = false;
-
-    public int getSelectedTab() {
-        LinearLayout tabBar = (LinearLayout) findViewById(R.id.tabs);
-        if (tabBar != null) {
-            for (int itemPos = 0; itemPos < tabBar.getChildCount(); itemPos++) {
-                if (tabBar.getChildAt(itemPos).isSelected()) {
-                    return itemPos;
-                }
-            }
-        }
-
-        return -1;
-    }
-
-    public void setSelectedTab(int idx) {
-        LinearLayout tabBar = (LinearLayout) findViewById(R.id.tabs);
-        if (tabBar != null) {
-            for (int itemPos = 0; itemPos < tabBar.getChildCount(); itemPos++) {
-                tabBar.getChildAt(itemPos).setSelected(false);
-            }
-
-            View tab = tabBar.getChildAt(idx);
-            if (tab != null)
-                tab.setSelected(true);
-        }
-    }
-
     @Override
     public void onBackPressed() {
         if (backButtonEnabled) {
-            if (animationLayout.isOpening()) {
-                animationLayout.closeSidebar();
+            if (_sidebarController.isOpening()) {
+                _sidebarController.toggleSidebar(false);
             } else {
                 if (getFragmentManager().getBackStackEntryCount() > 1) {
-                    this.popFragments(1);
+                    _navigationController.popFragments(1);
                 } else {
                     if (doubleBackToExitPressedOnce) {
                         this.finish();
@@ -461,17 +291,7 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        if (this.tabs != null) {
-            outState.putInt("selectedTab", getSelectedTab());
-
-            String[] serializedTabs = new String[this.tabs.length];
-            for(int i=0; i<this.tabs.length; ++i) {
-                JSONObject tab = this.tabs[i];
-                serializedTabs[i] = tab.toString();
-            }
-            outState.putStringArray("tabs", serializedTabs);
-        }
+        this._tabBarController.onSaveInstanceState(outState);
     }
 
     @Override
@@ -479,37 +299,23 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
         Log.d("axemas", "Performing onRestoreInstanceState()");
 
         super.onRestoreInstanceState(savedInstanceState);
-
-        String[] serializedTabs = savedInstanceState.getStringArray("tabs");
-        if (serializedTabs != null) {
-            JSONObject[] tabs = new JSONObject[serializedTabs.length];
-            for(int i=0; i<serializedTabs.length; ++i) {
-                try {
-                    JSONObject tab = new JSONObject(serializedTabs[i]);
-                    tabs[i] = tab;
-                }
-                catch (JSONException e) {
-                    // If unable to restore a tab throw away tabs
-                    Log.e("axemas", "Unable to restore tabs");
-                    return;
-                }
-            }
-
-            this.makeTabBar(tabs);
-            this.setSelectedTab(savedInstanceState.getInt("selectedTab"));
-        }
+        this._tabBarController.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        this._navigationController = new AXMNavigationController(this);
+        this._tabBarController = new AXMTabBarController(this);
+
         setContentView(R.layout.activity_with_sidebar_axm);
-        _replaceActionBar();
+        View actionBarView = _replaceActionBar();
+
+        this._sidebarController = new AXMSidebarController(this,
+                actionBarView.findViewById(R.id.action_bar_button));
 
         this.registeredControllers = new HashMap<String, Class>();
-        animationLayout = (AnimationLayout) findViewById(R.id.animation_layout);   // this is retained just check it
-        animationLayout.setListener(this);
 
         if(monitoringAvailableConnection)
             networkReceiver = new NetworkReceiver();
@@ -531,66 +337,13 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
             setTitle("");
 
         if (!jsonData.isNull("stackMaintainedElements")) {
-            popMaintainingOnly(jsonData.getInt("stackMaintainedElements"));
+            this.setTitle("");
+            _navigationController.popFragmentsAndMaintain(jsonData.getInt("stackMaintainedElements"));
         }
         if (!jsonData.isNull("stackPopElements")) {
-            popOnly(jsonData.getInt("stackPopElements"));
+            this.setTitle("");
+            _navigationController.popFragments(jsonData.getInt("stackPopElements"));
         }
-    }
-
-    private void makeSideBar(String sidebarUrl) {
-        SectionFragment sidebarFragment = SectionFragment.newInstance(sidebarUrl);
-        FragmentTransaction sidebarTransaction = getFragmentManager().beginTransaction();
-        sidebarTransaction.replace(R.id.sidebarSection, sidebarFragment, "sidebar_fragment");
-        sidebarTransaction.commit();
-    }
-
-    private void makeTabBar(JSONObject... tabs) {
-        this.tabs = tabs;
-
-        final LinearLayout tabbar = (LinearLayout)findViewById(R.id.tabs);
-
-        float scale = getResources().getDisplayMetrics().density;
-        int dpAsPixels = (int) (5 * scale + 0.5f);
-        tabbar.setPadding(dpAsPixels, dpAsPixels, dpAsPixels, dpAsPixels);
-
-        int currentTabIndex = -1;
-        for (final JSONObject tab : tabs) {
-            try {
-                tab.put("index", ++currentTabIndex);
-            } catch (JSONException e) {
-                Log.w("axemas", "Unable to serialize tab index while creating TabBar");
-            }
-
-            ImageButton tabIcon = new ImageButton(this);
-            try {
-                tabIcon.setImageResource(tab.getInt("icon"));
-                tabIcon.setBackgroundColor(Color.TRANSPARENT);
-                tabIcon.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f));
-                tabIcon.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        int tabIndex = tab.optInt("index", -1);
-                        if (tabIndex >= 0) {
-                            // Detect selecting already selected tab
-                            if (getSelectedTab() == tabIndex)
-                                return;
-                        }
-
-                        for (int itemPos = 0; itemPos < tabbar.getChildCount(); itemPos++) {
-                            tabbar.getChildAt(itemPos).setSelected(false);
-                        }
-                        view.setSelected(true);
-                        NavigationSectionsManager.goTo(AXMActivity.this, tab);
-                    }
-                });
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            tabbar.addView(tabIcon);
-        }
-
-        tabbar.getChildAt(0).setSelected(true);
     }
 
     protected void makeApplicationRootController(JSONObject dataObject, JSONObject... tabs) {
@@ -599,18 +352,18 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
         l.addAll(Arrays.asList(tabs));
         JSONObject[] tabsArray = new JSONObject[l.size()];
         tabsArray = l.toArray(tabsArray);
-        this.makeTabBar(tabsArray);
+        this._tabBarController.makeTabBar(tabsArray);
         makeApplicationRootController(dataObject);
     }
 
     protected void makeApplicationRootController(JSONObject dataObject, String sidebarUrl, JSONObject... tabs) {
         makeApplicationRootController(dataObject, tabs);
-        makeSideBar(sidebarUrl);
+        _sidebarController.makeSideBar(sidebarUrl);
     }
 
     protected void makeApplicationRootController(JSONObject dataObject, String sidebarUrl) {
         makeApplicationRootController(dataObject);
-        makeSideBar(sidebarUrl);
+        _sidebarController.makeSideBar(sidebarUrl);
     }
 
     protected void makeApplicationRootController(JSONObject dataObject) {
@@ -622,33 +375,23 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
         try {
             setupWithActions(dataObject);
             sectionFragment = SectionFragment.newInstance(dataObject);
-            pushFragment(sectionFragment, "web_fragment");
+            _navigationController.pushFragment(sectionFragment, "web_fragment");
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     protected void loadContent(Fragment fragment) {
-        pushFragment(fragment, "native_fragment");
+        _navigationController.pushFragment(fragment, "native_fragment");
     }
 
     protected void loadContent(int fragmentsToPop) {
-        popFragments(fragmentsToPop);
+        _navigationController.popFragments(fragmentsToPop);
     }
 
     protected void makeApplicationRootController(Fragment fragment, String sidebarUrl) {
-        pushFragment(fragment, "native_fragment");
-        makeSideBar(sidebarUrl);
-    }
-
-    private void popOnly(int fragmentsToPop) {
-        setTitle("");
-        popFragments(fragmentsToPop);
-    }
-
-    private void popMaintainingOnly(int maintainedFragments) {
-        setTitle("");
-        popFragmentsAndMaintain(maintainedFragments);
+        _navigationController.pushFragment(fragment, "native_fragment");
+        _sidebarController.makeSideBar(sidebarUrl);
     }
 
     protected void registerController(Class controllerClass, String route) {
