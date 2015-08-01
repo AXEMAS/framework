@@ -1,23 +1,21 @@
 from __future__ import print_function
+
 import os
 import re
+import stat
+import tempfile
+import shutil
 
 from gearbox.command import TemplateCommand
 
-REPOSITORY_CLONE_DIR = "./temp_repo"
 GIT_REMOTE_REPOSITORY = "https://github.com/AXEMAS/releases.git"
+
 
 class MakeBaseProject(TemplateCommand):
     CLEAN_PACKAGE_NAME_RE = re.compile('[^a-zA-Z0-9_]')
 
     def get_description(self):
         return 'Creates the structure for a new Axemas project'
-
-    def check_global_package(self, package):
-        if package.count('.') != 2:
-            return False
-        return True
-
 
     def get_parser(self, prog_name):
         parser = super(MakeBaseProject, self).get_parser(prog_name)
@@ -47,7 +45,7 @@ class MakeBaseProject(TemplateCommand):
         else:
             opts.global_package = "com.company.{}".format(opts.package_name)
 
-        if self.check_global_package(opts.global_package):
+        if self._check_global_package(opts.global_package):
             split_package = opts.global_package.split('.')
         else:
             print("Package name does not respect the required format: 'com.company.package'")
@@ -60,37 +58,71 @@ class MakeBaseProject(TemplateCommand):
         if opts.output_dir is None:
             opts.output_dir = opts.project_id
 
+        opts.output_dir = os.path.abspath(opts.output_dir)
         self.run_template(opts.output_dir, opts)
 
         print("Making Gradle Wrapper Runnable")
-        os.system("chmod +x ./{output_dir}/android/gradlew".format(output_dir=opts.output_dir))
+        self._make_exec(os.path.join(opts.output_dir, "android", "gradlew"))
 
         print("Making iOS Scripts Runnable")
-        os.system("chmod +x ./{output_dir}/ios/scripts/copy-www-build-step.sh".format(output_dir=opts.output_dir))
+        self._make_exec(os.path.join(opts.output_dir, "ios", "scripts", "copy-www-build-step.sh"))
 
         # clone && copy release distribution
-        print("Cloning repository {repo} to {dir}".format(repo=GIT_REMOTE_REPOSITORY, dir=REPOSITORY_CLONE_DIR))
-        os.system("rm -Rf {dir}".format(dir=REPOSITORY_CLONE_DIR))
-        os.system("git clone {repo} {dir}".format(repo=GIT_REMOTE_REPOSITORY, dir=REPOSITORY_CLONE_DIR))
+        with TemporaryDirectory('axemas_repo') as axemas_temporary:
+            self._git_clone(GIT_REMOTE_REPOSITORY, axemas_temporary)
+            self._copy(os.path.join(axemas_temporary, 'ios', 'release'),
+                       os.path.join(opts.output_dir, 'ios', 'axemas'))
+            self._copy(os.path.join(axemas_temporary, 'android', 'axemas.aar'),
+                       os.path.join(opts.output_dir, 'android', 'app', 'libs'))
+            self._copy(os.path.join(axemas_temporary, 'html'),
+                       os.path.join(opts.output_dir, 'axemas-js'))
 
-        os.system("cp -R {temp_repo}/ios/release ./{output_dir}/ios/axemas".format(
-            temp_repo=REPOSITORY_CLONE_DIR, output_dir=opts.output_dir))
-        os.system("cp -R {temp_repo}/android/axemas.aar ./{output_dir}/android/app/libs".format(
-            temp_repo=REPOSITORY_CLONE_DIR, output_dir=opts.output_dir))
-        os.system("cp -R {temp_repo}/html/ ./{output_dir}/axemas-js/".format(
-            temp_repo=REPOSITORY_CLONE_DIR, output_dir=opts.output_dir))
+        # create symlink to WWW directory, so it's shared between iOS and Android projects.
+        self._lns(os.path.join('..', 'axemas-js'),
+                  os.path.join(opts.output_dir, 'www', 'axemas'))
+        self._lns(os.path.join('..', 'www'),
+                  os.path.join(opts.output_dir, 'ios', 'www'))
+        self._lns(os.path.join('..', '..', '..', '..', '..', 'www'),
+                  os.path.join(opts.output_dir, 'android', 'app', 'src', 'main', 'assets', 'www'))
 
-        os.system("rm -Rf {dir}".format(dir=REPOSITORY_CLONE_DIR))
+        print("AXEMAS project {} created!".format(opts.project))
 
-        # create symlink to library files
-        # www
-        os.chdir("./{output_dir}/www".format(output_dir=opts.output_dir))
-        os.system("ln -s ../axemas-js/ axemas".format(output_dir=opts.output_dir))
-        # iOS
-        os.chdir("../ios")
-        os.system("ln -s ../www/ www".format(output_dir=opts.output_dir))
-        # Android
-        os.chdir("../android/app/src/main/assets")
-        os.system("ln -s ../../../../../www/ www".format(output_dir=opts.output_dir))
+    def _check_global_package(self, package):
+        if package.count('.') != 2:
+            return False
+        return True
 
-        print("Axemas project structure created.")
+    def _make_exec(self, path):
+        print('Marking {} runnable'.format(path))
+        st = os.stat(path)
+        os.chmod(path, st.st_mode | stat.S_IEXEC)
+
+    def _copy(self, path1, path2):
+        print('Copying {} -> {}'.format(path1, path2))
+        if os.path.isdir(path1):
+            shutil.copytree(path1, path2)
+        else:
+            shutil.copy(path1, path2)
+
+    def _git_clone(self, repo, dest):
+        # This should be upgraded to avoid using os.system
+        print("Cloning repository {repo} to {dest}".format(repo=repo, dest=dest))
+        os.system("git clone --depth 1 {repo} {dest}".format(repo=repo, dest=dest))
+
+    def _lns(self, orig, dest):
+        print("Linking {} -> {}".format(orig, dest))
+        os.symlink(orig, dest)
+
+
+class TemporaryDirectory(object):
+    def __init__(self, name):
+        self._name = name
+        self._basepath = None
+
+    def __enter__(self):
+        self._basepath = tempfile.mkdtemp()
+        return os.path.join(self._basepath, self._name)
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if self._basepath is not None:
+            shutil.rmtree(self._basepath)
