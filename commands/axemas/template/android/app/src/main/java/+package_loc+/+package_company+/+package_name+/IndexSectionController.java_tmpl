@@ -5,6 +5,7 @@ import android.os.Build;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import it.axant.axemas.AXMActivity;
 import it.axant.axemas.JavascriptBridge;
 import it.axant.axemas.NavigationSectionsManager;
 import it.axant.axemas.SectionFragment;
@@ -21,7 +22,7 @@ public class IndexSectionController extends BaseSectionController {
         this.section.getJSBridge().registerHandler("open-sidebar-from-native", new JavascriptBridge.Handler() {
             @Override
             public void call(Object data, JavascriptBridge.Callback callback) {
-                NavigationSectionsManager.toggleSidebar(section.getActivity(), true);
+                NavigationSectionsManager.getSidebarController((AXMActivity)section.getActivity()).toggleSidebar(true);
             }
         });
 
@@ -61,7 +62,7 @@ public class IndexSectionController extends BaseSectionController {
         this.section.getJSBridge().registerHandler("push-native-section", new JavascriptBridge.Handler() {
             @Override
             public void call(Object data, JavascriptBridge.Callback callback) {
-                NavigationSectionsManager.pushFragment(section.getActivity(), new NativeFragment());
+                NavigationSectionsManager.getActiveNavigationController((AXMActivity)section.getActivity()).pushFragment(new NativeFragment(), "native_fragment");
             }
         });
     }

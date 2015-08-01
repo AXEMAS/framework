@@ -1,3 +1,0 @@
-[gearbox.commands]
-axemas-setup = axemas.command:MakeBaseProject
-

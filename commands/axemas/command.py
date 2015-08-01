@@ -37,92 +37,41 @@ class MakeBaseProject(TemplateCommand):
         return parser
 
     def take_action(self, opts):
-        opts.package_loc = None
-        opts.package_company = None
-        opts.package_name = None
+        opts.version = '0.0.1'
 
-        if opts.package_name is None:
-            opts.package_name = self.CLEAN_PACKAGE_NAME_RE.sub('', opts.project.lower())
+        opts.project_id = '_'.join(opts.project.split()).lower()
+        opts.package_name = self.CLEAN_PACKAGE_NAME_RE.sub('', opts.project_id)
 
-        if opts.global_package is None:
+        if opts.global_package:
+            opts.global_package = opts.global_package.lower()
+        else:
             opts.global_package = "com.company.{}".format(opts.package_name)
-            split_package = opts.global_package.split('.')
-        elif self.check_global_package(opts.global_package):
+
+        if self.check_global_package(opts.global_package):
             split_package = opts.global_package.split('.')
         else:
-            print("Package name does nor respect the required format: 'com.company.package'")
-            return None
+            print("Package name does not respect the required format: 'com.company.package'")
+            return False
 
-        opts.package_loc = self.CLEAN_PACKAGE_NAME_RE.sub('', split_package[0].lower())
-        opts.package_company = self.CLEAN_PACKAGE_NAME_RE.sub('', split_package[1].lower())
-        opts.package_name = self.CLEAN_PACKAGE_NAME_RE.sub('', split_package[2].lower())
+        opts.package_loc = self.CLEAN_PACKAGE_NAME_RE.sub('', split_package[0])
+        opts.package_company = self.CLEAN_PACKAGE_NAME_RE.sub('', split_package[1])
+        opts.package_name = self.CLEAN_PACKAGE_NAME_RE.sub('', split_package[2])
 
         if opts.output_dir is None:
-            opts.output_dir = opts.project.lower()
-
-        opts.zip_safe = False
-        opts.version = '0.0.1'
+            opts.output_dir = opts.project_id
 
         self.run_template(opts.output_dir, opts)
 
-
-        # Project renaming
-        print("Renaming project")
-        # move Android tests directory
-        if opts.package_name != "application":
-            os.system(
-                "mv ./{output_dir}/android/app/src/androidTest/java/it/axant/application ./{output_dir}/android/app/src/androidTest/java/it/axant/{package}".format(
-                    output_dir=opts.output_dir, package=opts.package_name))
-        if opts.package_company != "axant":
-            os.system(
-                "mv ./{output_dir}/android/app/src/androidTest/java/it/axant ./{output_dir}/android/app/src/androidTest/java/it/{company}".format(
-                    output_dir=opts.output_dir, package=opts.package_name, company=opts.package_company))
-        if opts.package_loc != "it":
-            os.system(
-                "mv ./{output_dir}/android/app/src/androidTest/java/it ./{output_dir}/android/app/src/androidTest/java/{loc}".format(
-                    output_dir=opts.output_dir, package=opts.package_name, loc=opts.package_loc))
-
-
-        # move Android application package
-        if opts.package_name != "application":
-            os.system(
-                "mv ./{output_dir}/android/app/src/main/java/it/axant/application ./{output_dir}/android/app/src/main/java/it/axant/{package}".format(
-                    output_dir=opts.output_dir, package=opts.package_name))
-        if opts.package_company != "axant":
-            os.system(
-                "mv ./{output_dir}/android/app/src/main/java/it/axant ./{output_dir}/android/app/src/main/java/it/{company}".format(
-                    output_dir=opts.output_dir, package=opts.package_name, company=opts.package_company))
-        if opts.package_loc != "it":
-            os.system(
-                "mv ./{output_dir}/android/app/src/main/java/it ./{output_dir}/android/app/src/main/java/{loc}".format(
-                    output_dir=opts.output_dir, package=opts.package_name, loc=opts.package_loc))
-
+        print("Making Gradle Wrapper Runnable")
         os.system("chmod +x ./{output_dir}/android/gradlew".format(output_dir=opts.output_dir))
 
-        # rename iOS project
-        os.system(
-            "mv ./{output_dir}/ios/axemas.xcodeproj ./{output_dir}/ios/{project}.xcodeproj".format(
-                output_dir=opts.output_dir, package=opts.package_name, project=opts.project))
-        os.system(
-            "mv ./{output_dir}/ios/axemas/axemas-Info.plist ./{output_dir}/ios/axemas/{project}-Info.plist".format(
-                output_dir=opts.output_dir, package=opts.package_name, project=opts.project))
-        os.system(
-            "mv ./{output_dir}/ios/axemas/axemas-Prefix.pch ./{output_dir}/ios/axemas/{project}-Prefix.pch".format(
-                output_dir=opts.output_dir, package=opts.package_name, project=opts.project))
-
-
-        # run commands after the template finished processing
-
-        print("Running chmod +x on copy-www-build-step.sh")
+        print("Making iOS Scripts Runnable")
         os.system("chmod +x ./{output_dir}/ios/scripts/copy-www-build-step.sh".format(output_dir=opts.output_dir))
 
-
         # clone && copy release distribution
+        print("Cloning repository {repo} to {dir}".format(repo=GIT_REMOTE_REPOSITORY, dir=REPOSITORY_CLONE_DIR))
         os.system("rm -Rf {dir}".format(dir=REPOSITORY_CLONE_DIR))
-
-        print("Clonging repository {repo} to {dir}".format(repo=GIT_REMOTE_REPOSITORY, dir=REPOSITORY_CLONE_DIR))
         os.system("git clone {repo} {dir}".format(repo=GIT_REMOTE_REPOSITORY, dir=REPOSITORY_CLONE_DIR))
-
 
         os.system("cp -R {temp_repo}/ios/release ./{output_dir}/ios/axemas".format(
             temp_repo=REPOSITORY_CLONE_DIR, output_dir=opts.output_dir))
@@ -133,9 +82,7 @@ class MakeBaseProject(TemplateCommand):
 
         os.system("rm -Rf {dir}".format(dir=REPOSITORY_CLONE_DIR))
 
-
         # create symlink to library files
-
         # www
         os.chdir("./{output_dir}/www".format(output_dir=opts.output_dir))
         os.system("ln -s ../axemas-js/ axemas".format(output_dir=opts.output_dir))
@@ -145,6 +92,5 @@ class MakeBaseProject(TemplateCommand):
         # Android
         os.chdir("../android/app/src/main/assets")
         os.system("ln -s ../../../../../www/ www".format(output_dir=opts.output_dir))
-		
 
         print("Axemas project structure created.")

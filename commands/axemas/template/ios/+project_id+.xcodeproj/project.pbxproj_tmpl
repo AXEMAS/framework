@@ -32,30 +32,30 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3C88F21E17C7B91D001AF7F4 /* {{project}}.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = {{project}}.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C88F21E17C7B91D001AF7F4 /* {{project}}.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "{{project}}.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C88F22117C7B91D001AF7F4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3C88F22317C7B91D001AF7F4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3C88F22517C7B91D001AF7F4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		3C88F22917C7B91D001AF7F4 /* {{project}}-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "{{project}}-Info.plist"; sourceTree = "<group>"; };
+		3C88F22917C7B91D001AF7F4 /* {{project}}-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "{{project_id}}-Info.plist"; sourceTree = "<group>"; };
 		3C88F22B17C7B91D001AF7F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3C88F22D17C7B91D001AF7F4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		3C88F22F17C7B91D001AF7F4 /* {{project}}-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "{{project}}-Prefix.pch"; sourceTree = "<group>"; };
-		3C88F23017C7B91D001AF7F4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = axemas/AppDelegate.h; sourceTree = "<group>"; };
-		3C88F23117C7B91D001AF7F4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = axemas/AppDelegate.m; sourceTree = "<group>"; };
+		3C88F22F17C7B91D001AF7F4 /* {{project}}-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "{{project_id}}-Prefix.pch"; sourceTree = "<group>"; };
+		3C88F23017C7B91D001AF7F4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = {{project_id}}/AppDelegate.h; sourceTree = "<group>"; };
+		3C88F23117C7B91D001AF7F4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = {{project_id}}/AppDelegate.m; sourceTree = "<group>"; };
 		3C88F23317C7B91D001AF7F4 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		3C88F23517C7B91D001AF7F4 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		3C88F23717C7B91D001AF7F4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3C9D6D7717E0CA9300A766D5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3CEDDF1618F59CC800BAEB5E /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
-		3CEDDF1C18F5F14500BAEB5E /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = axemas/MapViewController.h; sourceTree = "<group>"; };
-		3CEDDF1D18F5F14500BAEB5E /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapViewController.m; path = axemas/MapViewController.m; sourceTree = "<group>"; };
+		3CEDDF1C18F5F14500BAEB5E /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = {{project_id}}/MapViewController.h; sourceTree = "<group>"; };
+		3CEDDF1D18F5F14500BAEB5E /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapViewController.m; path = {{project_id}}/MapViewController.m; sourceTree = "<group>"; };
 		3CEDDF1F18F5F23400BAEB5E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		3CEDDF2418F5FD8700BAEB5E /* IndexSectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IndexSectionController.h; path = axemas/IndexSectionController.h; sourceTree = "<group>"; };
-		3CEDDF2518F5FD8700BAEB5E /* IndexSectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IndexSectionController.m; path = axemas/IndexSectionController.m; sourceTree = "<group>"; };
-		5A0E7E9B1A6E95120065244C /* axemas.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = axemas.bundle; path = axemas/release/axemas.bundle; sourceTree = "<group>"; };
-		5A0E7E9C1A6E95120065244C /* AXOResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AXOResources.bundle; path = axemas/release/AXOResources.bundle; sourceTree = "<group>"; };
-		5A0E7E9F1A6E951A0065244C /* libaxemas.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libaxemas.a; path = axemas/release/libaxemas.a; sourceTree = "<group>"; };
-		5A0E7EA01A6E951A0065244C /* libAXO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAXO.a; path = axemas/release/libAXO.a; sourceTree = "<group>"; };
+		3CEDDF2418F5FD8700BAEB5E /* IndexSectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IndexSectionController.h; path = {{project_id}}/IndexSectionController.h; sourceTree = "<group>"; };
+		3CEDDF2518F5FD8700BAEB5E /* IndexSectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IndexSectionController.m; path = {{project_id}}/IndexSectionController.m; sourceTree = "<group>"; };
+		5A0E7E9B1A6E95120065244C /* axemas.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = axemas.bundle; path = axemas/axemas.bundle; sourceTree = "<group>"; };
+		5A0E7E9C1A6E95120065244C /* AXOResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AXOResources.bundle; path = axemas/AXOResources.bundle; sourceTree = "<group>"; };
+		5A0E7E9F1A6E951A0065244C /* libaxemas.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libaxemas.a; path = axemas/libaxemas.a; sourceTree = "<group>"; };
+		5A0E7EA01A6E951A0065244C /* libAXO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAXO.a; path = axemas/libAXO.a; sourceTree = "<group>"; };
 		5A0E7EA51A6E95250065244C /* AXMSectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXMSectionController.h; sourceTree = "<group>"; };
 		5A0E7EA61A6E95250065244C /* NavigationSectionsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationSectionsManager.h; sourceTree = "<group>"; };
 		5A0E7EA71A6E95250065244C /* NetworkAvailabilityDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkAvailabilityDetector.h; sourceTree = "<group>"; };
@@ -63,13 +63,13 @@
 		5A0E7EA91A6E95250065244C /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		5A0E7EAB1A6E95250065244C /* ScheduledActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduledActivity.h; sourceTree = "<group>"; };
 		5A0E7EB11A6E968D0065244C /* SWRevealViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
-		5A5B94D51A02664C0068C534 /* BaseSectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseSectionController.h; sourceTree = "<group>"; };
-		5A5B94D61A02664C0068C534 /* BaseSectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseSectionController.m; sourceTree = "<group>"; };
-		5A5B94DA1A028A990068C534 /* NativeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeViewController.h; sourceTree = "<group>"; };
-		5A5B94DB1A028A990068C534 /* NativeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NativeViewController.m; sourceTree = "<group>"; };
-		5A5B94DC1A028A990068C534 /* NativeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NativeViewController.xib; sourceTree = "<group>"; };
-		5AA9A18619A3B055007F5386 /* slide_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = slide_icon.png; path = axemas/slide_icon.png; sourceTree = "<group>"; };
-		5AA9A18719A3B055007F5386 /* slide_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slide_icon@2x.png"; path = "axemas/slide_icon@2x.png"; sourceTree = "<group>"; };
+		5A5B94D51A02664C0068C534 /* BaseSectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseSectionController.h; path = {{project_id}}/BaseSectionController.h; sourceTree = "<group>"; };
+		5A5B94D61A02664C0068C534 /* BaseSectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseSectionController.m; path = {{project_id}}/BaseSectionController.m; sourceTree = "<group>"; };
+		5A5B94DA1A028A990068C534 /* NativeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NativeViewController.h; path = {{project_id}}/NativeViewController.h; sourceTree = "<group>"; };
+		5A5B94DB1A028A990068C534 /* NativeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NativeViewController.m; path = {{project_id}}/NativeViewController.m; sourceTree = "<group>"; };
+		5A5B94DC1A028A990068C534 /* NativeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NativeViewController.xib; path = {{project_id}}/NativeViewController.xib; sourceTree = "<group>"; };
+		5AA9A18619A3B055007F5386 /* slide_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = slide_icon.png; path = {{project_id}}/slide_icon.png; sourceTree = "<group>"; };
+		5AA9A18719A3B055007F5386 /* slide_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slide_icon@2x.png"; path = "{{project_id}}/slide_icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,16 +127,16 @@
 		3C88F22817C7B91D001AF7F4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3C88F22917C7B91D001AF7F4 /* {{project}}-Info.plist */,
+				3C88F22917C7B91D001AF7F4 /* {{project_id}}-Info.plist */,
 				3C88F22A17C7B91D001AF7F4 /* InfoPlist.strings */,
 				3C88F22D17C7B91D001AF7F4 /* main.m */,
-				3C88F22F17C7B91D001AF7F4 /* {{project}}-Prefix.pch */,
+				3C88F22F17C7B91D001AF7F4 /* {{project_id}}-Prefix.pch */,
 				3C88F23317C7B91D001AF7F4 /* Default.png */,
 				3C88F23517C7B91D001AF7F4 /* Default@2x.png */,
 				3C88F23717C7B91D001AF7F4 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
-			path = axemas;
+			path = {{project_id}};
 			sourceTree = "<group>";
 		};
 		3CEDDF1B18F5E7BE00BAEB5E /* application */ = {
@@ -168,7 +168,7 @@
 				5A0E7EAA1A6E95250065244C /* AXO */,
 			);
 			name = include;
-			path = axemas/release/include;
+			path = axemas/include;
 			sourceTree = "<group>";
 		};
 		5A0E7EA41A6E95250065244C /* axemas */ = {
@@ -181,6 +181,7 @@
 				5A0E7EA81A6E95250065244C /* SectionViewController.h */,
 				5A0E7EA91A6E95250065244C /* WebViewJavascriptBridge.h */,
 			);
+			name = axemas;
 			path = axemas;
 			sourceTree = "<group>";
 		};
@@ -189,6 +190,7 @@
 			children = (
 				5A0E7EAB1A6E95250065244C /* ScheduledActivity.h */,
 			);
+			name = AXO;
 			path = AXO;
 			sourceTree = "<group>";
 		};
@@ -208,9 +210,9 @@
 			);
 			dependencies = (
 			);
-			name = {{project}};
-			productName = axemas;
-			productReference = 3C88F21E17C7B91D001AF7F4 /* {{project}}.app */;
+			name = "{{project}}";
+			productName = "{{project}}";
+			productReference = 3C88F21E17C7B91D001AF7F4 /* {{project_id}}.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -364,12 +366,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "axemas/{{project}}-Prefix.pch";
-				INFOPLIST_FILE = "axemas/{{project}}-Info.plist";
+				GCC_PREFIX_HEADER = "{{project_id}}/{{project_id}}-Prefix.pch";
+				INFOPLIST_FILE = "{{project_id}}/{{project_id}}-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/axemas/release",
+					"$(PROJECT_DIR)/axemas",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -380,12 +382,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "axemas/{{project}}-Prefix.pch";
-				INFOPLIST_FILE = "axemas/{{project}}-Info.plist";
+				GCC_PREFIX_HEADER = "{{project_id}}/{{project_id}}-Prefix.pch";
+				INFOPLIST_FILE = "{{project_id}}/{{project_id}}-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/axemas/release",
+					"$(PROJECT_DIR)/axemas",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
