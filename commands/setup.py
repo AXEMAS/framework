@@ -1,7 +1,7 @@
 import os
 from setuptools import setup
 
-version = "0.0.7"
+version = "0.0.8"
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -31,7 +31,8 @@ setup(name='axemas',
       ],
       entry_points={
           'gearbox.commands': [
-              'axemas-setup = axemas.command:MakeBaseProject',
+              'axemas-quickstart = axemas.command:MakeBaseProject',
+              'axemas-serve = axemas.server:ServeProjectCommand'
           ]
       },
       include_package_data=True,

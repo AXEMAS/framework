@@ -11,7 +11,7 @@
 			};
 
 		if (axemas.getPlatform() == 'unsupported')
-			window.location = '../' + data["url"];
+			window.location = '/' + data["url"];
 		else
 			axemas.call('goto', data);
 	};
@@ -65,8 +65,8 @@
 		});
 	};
 
-	axemas.fetchData = function (key) {
-		axemas.call('fetchData', key);
+	axemas.fetchData = function (key, callback) {
+		axemas.call('fetchData', key, callback);
 	};
 
 	axemas.removeData = function (key) {
