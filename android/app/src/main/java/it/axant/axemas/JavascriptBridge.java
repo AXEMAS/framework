@@ -100,6 +100,14 @@ public class JavascriptBridge {
         this.runJavascript(jsMessage);
     }
 
+    public void callJS(String handlerName, JSONObject data) {
+        this.callJS(handlerName, data, null);
+    }
+
+    public void callJS(String handlerName) {
+        this.callJS(handlerName, null, null);
+    }
+
     @JavascriptInterface
     public void callAndroidCallback(String callbackId, String encodedData) {
         Log.d("axemas", "Calling Callback "+callbackId+" with data: "+encodedData);
