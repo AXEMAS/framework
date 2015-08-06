@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SectionViewController.h"
 
 @interface NavigationSectionsManager : NSObject
 
@@ -15,6 +16,7 @@
 + (UINavigationController*)activeNavigationController;
 + (UIViewController*)activeController;
 + (id)activeSidebarController;
++ (SectionViewController*)sidebarSectionController;
 + (void)goto:(NSDictionary*)data animated:(BOOL)animated;
 + (void)pushController:(UIViewController*)controller animated:(BOOL)animated;
 

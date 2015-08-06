@@ -173,6 +173,12 @@ static SectionsManagerStatus *statusInstance = nil;
     return [SectionsManagerStatus sharedInstance].sidebarController;
 }
 
++ (SectionViewController*)sidebarSectionController {
+    SWRevealViewController *viewController = [NavigationSectionsManager activeSidebarController];
+    SectionViewController *sectionViewController = (SectionViewController *)viewController.rearViewController;
+    return sectionViewController.registeredSectionController;
+}
+
 + (BOOL) popViews:(NSInteger) viewsToPop{
     NSArray *viewStack = [[NavigationSectionsManager activeNavigationController] viewControllers];
     long limit = MIN(MAX(0, viewsToPop), [viewStack count]);
