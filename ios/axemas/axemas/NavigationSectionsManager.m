@@ -131,8 +131,8 @@ static SectionsManagerStatus *statusInstance = nil;
     return mainApplicationController;
 }
 
-+ (UINavigationController*)activeNavigationController {
-    UIWindow *mainWindow = [[UIApplication sharedApplication] keyWindow];
++ (UINavigationController*)activeNavigationController {    
+    UIWindow *mainWindow = [UIApplication sharedApplication].windows[0];
     UIViewController *rootController = mainWindow.rootViewController;
     
     if ([rootController isKindOfClass:[SWRevealViewController class]])
