@@ -8,10 +8,10 @@ IOS_BUILD_DIR=ios/axemas
 
 #Release repository cleanup fase
 
-if ! [ -d $EXAMPLES_REPO ]; then
+if ! [ -d $RELEASE_DIR ]; then
     echo Cloning Examples Repo
     mkdir $RELEASE_DIR
-    git clone https://github.com/AXEMAS/releases.git $EXAMPLES_REPO 
+    git clone https://github.com/AXEMAS/releases.git $RELEASE_DIR
 fi
 
 rm -R $RELEASE_DIR/android
