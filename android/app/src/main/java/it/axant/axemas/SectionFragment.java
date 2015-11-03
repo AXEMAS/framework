@@ -250,10 +250,13 @@ public class SectionFragment extends Fragment {
                 String key = (String) data;
                 JSONObject obj = new JSONObject();
                 Log.d("axemas", "fetchData: "+key);
-                try {
-                    obj.put(key, SharedStorage.getValueForKey((AXMActivity) getActivity(), key));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                AXMActivity mainAxmActivity = (AXMActivity) getActivity();
+                if(mainAxmActivity != null) {
+                    try {
+                        obj.put(key, SharedStorage.getValueForKey(mainAxmActivity, key));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
                 callback.call(obj);
             }
@@ -334,7 +337,7 @@ public class SectionFragment extends Fragment {
             this.controller.sectionOnViewCreate(_rootView);
         }
 
-        Log.d("axemas-debug", "Fragment " + String.valueOf(webView) + " with state: " + String.valueOf(savedInstanceState));
+        Log.d("axemas-debug", "Fragment " + String.valueOf(this) + " with state: " + String.valueOf(savedInstanceState));
         if (savedInstanceState != null) {
             fragmentTitle = savedInstanceState.getString(FRAGMENT_TITLE);
             webViewLoading = savedInstanceState.getBoolean("webViewLoading");
@@ -367,7 +370,7 @@ public class SectionFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        Log.d("axemas-debug", "Attaching Fragment...");
+        Log.d("axemas-debug", String.format("Attaching Fragment %s...", this));
 
         try {
             mListener = (SectionFragmentActivity) activity;
@@ -380,13 +383,13 @@ public class SectionFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("axemas-debug", "Resuming " + String.valueOf(getActivity()) + " from " + String.valueOf(this) + " for " + String.valueOf(webView));
 
         if (!webViewLoading) {
-            Log.d("axemas-debug", "Reloading WebView content");
+            Log.d("axemas-debug", String.format("Reloading WebView content: %s", this));
             webView.loadUrl(fullUrl);
         }
 
-        Log.d("axemas-debug", "Resuming " + String.valueOf(getActivity()) + " from " + String.valueOf(this) + " for " + String.valueOf(webView));
         AXMActivity axmActivity = ((AXMActivity) getActivity());
 
         String fragmentRole = getTag();
@@ -461,7 +464,7 @@ public class SectionFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d("axemas-debug", "Detaching Fragment");
+        Log.d("axemas-debug", String.format("Detaching Fragment %s...", this));
         mListener = null;
     }
 
@@ -505,8 +508,8 @@ public class SectionFragment extends Fragment {
             if (this.controller != null && getActivity() != null)
                 this.controller.sectionWillLoad();
 
-            Log.d("axemas-debug", String.format("Loading %s", url));
-            webViewLoading = true;
+            Log.d("axemas-debug", String.format("Loading %s (%b) -> %s", SectionFragment.this, SectionFragment.this.isAdded(), url));
+            SectionFragment.this.webViewLoading = true;
         }
 
         @Override

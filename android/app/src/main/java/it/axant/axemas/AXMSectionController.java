@@ -6,12 +6,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
+import java.lang.ref.WeakReference;
 
 public class AXMSectionController {
-    protected SectionFragment section;
+    private WeakReference<SectionFragment> section;
 
     public AXMSectionController(SectionFragment section) {
-        this.section = section;
+        this.section = new WeakReference<SectionFragment>(section);
+    }
+
+    protected SectionFragment getSection() {
+        return this.section.get();
     }
 
     public void sectionDidLoad() {
