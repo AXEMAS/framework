@@ -26,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.Override;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -383,6 +384,8 @@ public class SectionFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        this.webView.onResume();
+
         Log.d("axemas-debug", "Resuming " + String.valueOf(getActivity()) + " from " + String.valueOf(this) + " for " + String.valueOf(webView));
 
         if (!webViewLoading) {
@@ -459,6 +462,8 @@ public class SectionFragment extends Fragment {
 
         if (this.controller != null)
             this.controller.sectionFragmentWillPause();
+
+        this.webView.onPause();
     }
 
     @Override
@@ -466,6 +471,14 @@ public class SectionFragment extends Fragment {
         super.onDetach();
         Log.d("axemas-debug", String.format("Detaching Fragment %s...", this));
         mListener = null;
+        this.webView.destroy();
+        this.webView = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("axemas-debug", String.format("DestroyView Fragment %s...", this));
     }
 
     public void showProgressDialog() {
