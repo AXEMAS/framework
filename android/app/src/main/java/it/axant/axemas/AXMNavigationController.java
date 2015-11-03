@@ -85,19 +85,21 @@ public class AXMNavigationController {
             public void run() {
                 FragmentManager fragmentManager = getFragmentManager();
 
-                int maintainedFragments = Math.max(maintainedFragmentsArg, 1);
+                int maintainedFragments = Math.max(maintainedFragmentsArg, 0);
                 while (fragmentManager.getBackStackEntryCount() > maintainedFragments) {
                     fragmentManager.popBackStackImmediate();
                 }
 
                 int stackTopIdx = fragmentManager.getBackStackEntryCount() - 1;
-                String stackInfoString = "";
-                try {
-                    stackInfoString = fragmentManager.getBackStackEntryAt(stackTopIdx).getName();
-                    JSONObject stackInfo = new JSONObject(stackInfoString);
-                    _activity.getTabBarController().setSelectedTab(stackInfo.getInt("tabIdx"));
-                } catch (JSONException e) {
-                    Log.w("axemas", "Ignoring stackInfo: " + String.valueOf(stackInfoString));
+                if (stackTopIdx > 0) {
+                    String stackInfoString = "";
+                    try {
+                        stackInfoString = fragmentManager.getBackStackEntryAt(stackTopIdx).getName();
+                        JSONObject stackInfo = new JSONObject(stackInfoString);
+                        _activity.getTabBarController().setSelectedTab(stackInfo.getInt("tabIdx"));
+                    } catch (JSONException e) {
+                        Log.w("axemas", "Ignoring stackInfo: " + String.valueOf(stackInfoString));
+                    }
                 }
             }
         });
