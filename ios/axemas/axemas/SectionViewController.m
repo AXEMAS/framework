@@ -220,6 +220,11 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    NSLog(@"Leaving Section %p", self);
+}
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     if (![self.title length])
         self.title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
@@ -317,6 +322,8 @@ navigationType:(UIWebViewNavigationType)navigationType {
         [SharedStorage removeValueFrom:key];
         responseCallback(nil);
     }];
+    
+    __weak SectionViewController *weakController = self;
     [self.bridge registerHandler:@"dialog" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSDictionary *dialogInfo = (NSDictionary*)data;
         
@@ -326,8 +333,8 @@ navigationType:(UIWebViewNavigationType)navigationType {
         NSString *thirdButton = buttons.count >= 3 ? buttons[2] : nil;
         
         AXMDialogDelegate *dialogDelegate = [[AXMDialogDelegate alloc] initWithCallback:responseCallback
-                                                                         withController:self];
-        [self.dialogDelegates addObject:dialogDelegate];
+                                                                         withController:weakController];
+        [weakController.dialogDelegates addObject:dialogDelegate];
         
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:dialogInfo[@"title"]
                                                          message:[NSString stringWithFormat:@"%@", dialogInfo[@"message"]]
@@ -355,6 +362,10 @@ navigationType:(UIWebViewNavigationType)navigationType {
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+    NSLog(@"Dealloc Section %p", self);
 }
 
 @end
