@@ -22,4 +22,6 @@
 - (NSString*)requestedNavigationAnimation;
 - (void) rightClickOnNavBarItem;
 
+-(void) leftClickOnNavBarItem;
+
 @end

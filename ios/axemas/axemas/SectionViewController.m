@@ -87,6 +87,26 @@
     [self.registeredSectionController navigationbarRightButtonAction];
 }
 
+
+
+-(void) leftClickOnNavBarItem{
+    
+    NSLog(@"leftClickOnNavBarItem");
+    
+    SWRevealViewController *viewController = [NavigationSectionsManager activeSidebarController];
+    [viewController revealToggle:nil];
+    FrontViewPosition toggledFrontViewPosition = FrontViewPositionLeft;
+    FrontViewPosition frontViewPosition = [viewController frontViewPosition];
+    
+    if (frontViewPosition > FrontViewPositionLeft){
+        toggledFrontViewPosition = FrontViewPositionLeftSide;
+        [self.view setUserInteractionEnabled:NO];
+    } else {
+        [self.view setUserInteractionEnabled:YES];
+    }
+    
+}
+
 + (SectionViewController*)createWithData:(NSDictionary*)data {
     SectionViewController *viewController = [[SectionViewController alloc] initWithNibName:@"SectionViewController"
                                                                                     bundle:nil];
@@ -95,8 +115,8 @@
         SWRevealViewController *activeSidebarController = [NavigationSectionsManager activeSidebarController];
         UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                              style:UIBarButtonItemStyleBordered
-                                                                            target:activeSidebarController
-                                                                            action:@selector(revealToggle:)];
+                                                                            target:viewController
+                                                                            action:@selector(leftClickOnNavBarItem)];
         [AXOButtonFactory replaceNavigationButton:revealButtonItem withImage:[UIImage imageNamed:data[@"toggleSidebarIcon"]]];
         
         viewController.navigationItem.leftBarButtonItem = revealButtonItem;
@@ -222,7 +242,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    NSLog(@"Leaving Section %p", self);
+    NSLog(@"Leaving Section %p , %@", self, self.request);
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
@@ -289,6 +309,7 @@ navigationType:(UIWebViewNavigationType)navigationType {
         responseCallback(nil);
     }];
     [self.bridge registerHandler:@"gotoFromSidebar" handler:^(id data, WVJBResponseCallback responseCallback) {
+        [[NavigationSectionsManager activeController].view setUserInteractionEnabled:YES];
         [NavigationSectionsManager goto:data animated:NO];
         [[NavigationSectionsManager activeSidebarController] revealToggleAnimated:YES];
         responseCallback(nil);
