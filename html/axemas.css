@@ -1,16 +1,5 @@
-* {
-    box-sizing: border-box;
-}
-
-*:not(input):not(textarea) {
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-}
-
-html, body, .axemas-content {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+/* Reset for Ratchet with native navbar and scrolling */
+body, .content {
     position: static;
     top: auto;
     right: auto;
@@ -19,9 +8,15 @@ html, body, .axemas-content {
 }
 
 .axemas-scroll {
-    height: 100%;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     transform: translate3d(0, 0, 0);
     -webkit-backface-visibility: hidden;
 }
+
+*:not(input):not(textarea) {
+-webkit-user-select: none;
+/* disable selection/Copy of UIWebView */
+-webkit-touch-callout: none;
+/* disable the IOS popup when long-press on a link */
+} 
