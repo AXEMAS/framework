@@ -29,11 +29,11 @@
 	};
 
 	axemas.showProgressHUD = function () {
-		axemas.call('showProgressHUD', "");
+		axemas.call('showProgressHUD', {});
 	};
 
 	axemas.hideProgressHUD = function () {
-		axemas.call('hideProgressHUD', "");
+		axemas.call('hideProgressHUD', {});
 	};
 
 	axemas.dialog = function (title, message, buttons, onButtonClickCallback) {
@@ -50,10 +50,13 @@
 	};
 
 	axemas.getPlatform = function () {
+		if (navigator.userAgent.match(/Windows Phone/i))
+			return 'winphone';
 		if (navigator.userAgent.match(/Android/i))
 			return 'android';
 		if (navigator.userAgent.match(/iPhone|iPad|iPod/i))
 			return 'ios';
+
 
 		return 'unsupported';
 	};
@@ -65,7 +68,7 @@
 		});
 	};
 
-	axemas.fetchData = function (key, callback) {
+	axemas.fetchData = function (key, optcbk) {
 		axemas.call('fetchData', key, callback);
 	};
 
@@ -81,6 +84,72 @@
 		WebViewJavascriptBridge.registerHandler(handlerName, handler);
 	};
 
+
+	// Support for native calls on WindowsPhone
+	if (axemas.getPlatform() == 'winphone') {
+		if (!win.WebViewJavascriptBridge) {
+			var messageHandlers = {};
+			var responseCallbacks = {};
+			var uniqueId = 1;
+
+			var callHandler = function (handlerName, data, responseCallback) {
+				var message = {
+					'type': 'CallHandler',
+					'handlerName': handlerName,
+					'data': data
+				};
+				if (responseCallback) {
+					var callbackId = 'cb_' + (uniqueId++) + '_' + new Date().getTime();
+					responseCallbacks[callbackId] = responseCallback;
+					message['callbackId'] = callbackId;
+				}
+
+				var encodedMessage = JSON.stringify(message);
+				window.external.notify(encodedMessage);
+			};
+
+			var registerHandler = function (handlerName, handler) {
+				messageHandlers[handlerName] = handler;
+			};
+
+			var _callJSCallback = function (callbackId, data) {
+				var responseCallback = responseCallbacks[callbackId];
+				if (!responseCallback) {
+					return;
+				}
+				delete responseCallbacks[callbackId];
+				responseCallback(JSON.parse(data));
+			};
+
+			var _callJSHandler = function (handlerName, data, callbackId) {
+				var responseCallback = function (responseData) {
+					var message = {
+						'type': 'CallCallback',
+						'callbackId': callbackId,
+						'data': responseData
+					};
+					var encodedMessage = JSON.stringify(message);
+					window.external.notify(encodedMessage);
+				}
+
+				var handler = messageHandlers[handlerName];
+				if (!handler) {
+					console.log('No handler in place for message', data);
+					responseCallback({});
+					return;
+				}
+
+				handler(JSON.parse(data), responseCallback);
+			}
+
+			win.WebViewJavascriptBridge = {
+				registerHandler: registerHandler,
+				callHandler: callHandler,
+				_callJSCallback: _callJSCallback,
+				_callJSHandler: _callJSHandler
+			};
+		}
+	}
 
 	// Support for native calls on Android
 	if (axemas.getPlatform() == 'android') {
@@ -258,3 +327,11 @@
 	}
 
 })(window);
+
+/* Those are needed only for WindowsPhone */
+var __axemas_WebViewJavascriptBridge_callJSCallback = function (callbackId, data) {
+	WebViewJavascriptBridge._callJSCallback(callbackId, data);
+}
+var __axemas_WebViewJavascriptBridge_callJSHandler = function (handlerName, data, callbackId) {
+	WebViewJavascriptBridge._callJSHandler(handlerName, data, callbackId);
+}

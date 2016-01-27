@@ -1,27 +1,35 @@
+/* Reset for Ratchet with native navbar and scrolling */
+
 * {
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
-*:not(input):not(textarea) {
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-}
-
-html, body, .axemas-content {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    position: static;
-    top: auto;
-    right: auto;
-    bottom: auto;
-    left: auto;
+html,
+body,
+.axemas-content {
+	position: static;
+	top: auto;
+	right: auto;
+	bottom: auto;
+	left: auto;
+	height: 100%;
+	margin: 0;
+	padding: 0;
 }
 
 .axemas-scroll {
-    height: 100%;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-    transform: translate3d(0, 0, 0);
-    -webkit-backface-visibility: hidden;
+	height: 100%;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+	transform: translate3d(0, 0, 0);
+	-webkit-backface-visibility: hidden;
+}
+
+*:not(input):not(textarea) {
+	-webkit-user-select: none;
+	/* disable selection/Copy of UIWebView */
+	-webkit-touch-callout: none;
+	/* disable the IOS popup when long-press on a link */
+	-ms-user-select: none;
+	/* disable selection on webview */
 }
