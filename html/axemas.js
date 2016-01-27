@@ -68,7 +68,7 @@
 		});
 	};
 
-	axemas.fetchData = function (key, optcbk) {
+	axemas.fetchData = function (key, callback) {
 		axemas.call('fetchData', key, callback);
 	};
 
