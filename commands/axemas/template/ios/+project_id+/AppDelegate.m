@@ -25,13 +25,13 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.networkDetector = [[NetworkAvailabilityDetector alloc] init];
     
-    [NavigationSectionsManager registerController:[IndexSectionController class] forRoute:@"www/sections/index/section.html"];
+    [NavigationSectionsManager registerController:[IndexSectionController class] forRoute:@"www/sections/index/index.html"];
 
     
-    self.rootController = [NavigationSectionsManager makeApplicationRootController:@[@{@"url":@"www/sections/index/section.html",
+    self.rootController = [NavigationSectionsManager makeApplicationRootController:@[@{@"url":@"www/sections/index/index.html",
                                                                                        @"title":@"Home",
                                                                                        @"toggleSidebarIcon":@"slide_icon"}]
-                                                                       withSidebar:@{@"url":@"www/sections/sidebar/section.html"}];
+                                                                       withSidebar:@{@"url":@"www/sections/sidebar/sidebar.html"}];
 
     self.window.rootViewController = self.rootController;
     [self.window makeKeyAndVisible];

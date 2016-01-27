@@ -25,7 +25,7 @@ class ServeProjectCommand(Command):
         httpd = BaseHTTPServer.HTTPServer(('', 8000), CORSRequestHandler)
         sa = httpd.socket.getsockname()
         url = 'http://{}:{}/www'.format(*sa)
-        root_url = '{}/sections/index/section.html'.format(url)
+        root_url = '{}/sections/index/index.html'.format(url)
 
         print("Serving on {}... default Root Section is {}".format(url, root_url))
         OpenBrowserThread(root_url).start()
