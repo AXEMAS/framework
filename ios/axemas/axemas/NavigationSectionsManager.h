@@ -17,6 +17,7 @@
 + (UIViewController*)activeController;
 + (id)activeSidebarController;
 + (SectionViewController*)sidebarSectionController;
++ (void) setSidebarButtonVisibility:(BOOL)visible;
 + (void)goto:(NSDictionary*)data animated:(BOOL)animated;
 + (void)pushController:(UIViewController*)controller animated:(BOOL)animated;
 

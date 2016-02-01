@@ -17,7 +17,6 @@
 - (id)registeredSectionController;
 - (void)setupWithData:(NSDictionary*)data;
 + (SectionViewController*)createWithData:(NSDictionary*)data;
-+ (NSString*)activeSidebarIconName;
 - (void)forceContentLoad;
 - (NSString*)requestedNavigationAnimation;
 - (void) rightClickOnNavBarItem;
