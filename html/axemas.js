@@ -103,8 +103,9 @@
                 'message': String(data)
             };
 
-        console.log(data['tag']+ " - "+data['message']);
-        axemas.call('log', data);
+        console.log(data['tag'] + " - " + data['message']);
+        if (axemas.getPlatform() !== 'unsupported')
+            axemas.call('log', data);
     };
 
     axemas.call = function (handlerName, data, responseCallback) {
