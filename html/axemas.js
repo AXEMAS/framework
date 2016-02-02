@@ -77,8 +77,11 @@
     };
 
     axemas.fetchData = function (key, callback) {
-        if (axemas.getPlatform() == 'unsupported')
-            callback({key: localStorage.getItem(key)});
+        if (axemas.getPlatform() == 'unsupported') {
+            var data = {};
+            data[key] = localStorage.getItem(key);
+            callback(data);
+        }
         else
             axemas.call('fetchData', key, callback);
     };
