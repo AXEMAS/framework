@@ -47,7 +47,10 @@
     };
 
     axemas.alert = function (title, message) {
-        axemas.dialog(title, message, ['Ok']);
+        if (axemas.getPlatform() == 'unsupported')
+            alert(title + "\n\n" + message);
+        else
+            axemas.dialog(title, message, ['Ok']);
     };
 
     axemas.getPlatform = function () {
