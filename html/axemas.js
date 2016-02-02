@@ -98,6 +98,26 @@
         WebViewJavascriptBridge.registerHandler(handlerName, handler);
     };
 
+    
+    // Provide a fake WebViewJavascriptBridge for development in browser
+    if (axemas.getPlatform() == 'unsupported') {
+        if (!win.WebViewJavascriptBridge) {
+            var messageHandlers = {};
+            
+            var registerHandler = function(handlerName, handler) {
+                messageHandlers[handlerName] = handler;
+            };
+            
+            var callHandler = function(handlerName, data, responseCallback) {
+                setTimeout(function() { messageHandlers[handlerName](data, responseCallback); }, 0);
+            }
+            
+            win.WebViewJavascriptBridge = {
+                registerHandler: registerHandler,
+                callHandler: callHandler,
+            };
+        }
+    }
 
     // Support for native calls on WindowsPhone
     if (axemas.getPlatform() == 'winphone') {
