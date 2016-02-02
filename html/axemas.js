@@ -78,7 +78,7 @@
 
     axemas.fetchData = function (key, callback) {
         if (axemas.getPlatform() == 'unsupported')
-            callback(localStorage.getItem(key));
+            callback({key: localStorage.getItem(key)});
         else
             axemas.call('fetchData', key, callback);
     };
