@@ -3,6 +3,7 @@
 	"use strict";
 
 	var axemas = win['axemas'] = (win['axemas'] || {});
+    axemas._platform_cache = null;
 
 	axemas.goto = function (data) {
 		if (typeof data === 'string' || data instanceof String)
@@ -50,30 +51,43 @@
 	};
 
 	axemas.getPlatform = function () {
+        if (axemas._platform_cache !== null)
+            return axemas._platform_cache;
+
+        var platform = 'unsupported';
 		if (navigator.userAgent.match(/Windows Phone/i))
-			return 'winphone';
-		if (navigator.userAgent.match(/Android/i))
-			return 'android';
-		if (navigator.userAgent.match(/iPhone|iPad|iPod/i))
-			return 'ios';
+			platform = 'winphone';
+        else if (navigator.userAgent.match(/Android/i))
+			platform = 'android';
+        else if (navigator.userAgent.match(/iPhone|iPad|iPod/i))
+			platform = 'ios';
 
-
-		return 'unsupported';
+        axemas._platform_cache = platform;
+		return platform;
 	};
 
 	axemas.storeData = function (key, value) {
-		axemas.call('storeData', {
-			'key': key,
-			'value': value
-		});
+        if (axemas.getPlatform() == 'unsupported')
+            localStorage.setItem(key, value);
+        else
+            axemas.call('storeData', {
+                'key': key,
+                'value': value
+            });
 	};
 
 	axemas.fetchData = function (key, callback) {
-		axemas.call('fetchData', key, callback);
+        if (axemas.getPlatform() == 'unsupported')
+            callback(localStorage.getItem(key));
+        else
+		    axemas.call('fetchData', key, callback);
 	};
 
 	axemas.removeData = function (key) {
-		axemas.call('removeData', key);
+        if (axemas.getPlatform() == 'unsupported')
+            localStorage.removeItem(key);
+        else
+		    axemas.call('removeData', key);
 	};
 
 	axemas.call = function (handlerName, data, responseCallback) {
