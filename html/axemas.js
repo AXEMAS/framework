@@ -96,6 +96,17 @@
             axemas.call('removeData', key);
     };
 
+    axemas.log = function (data) {
+        if (typeof data === 'string' || data instanceof String)
+            data = {
+                'tag': 'AXEMAS_LOG',
+                'message': String(data)
+            };
+
+        console.log(data['tag']+ " - "+data['message']);
+        axemas.call('log', data);
+    };
+
     axemas.call = function (handlerName, data, responseCallback) {
         WebViewJavascriptBridge.callHandler(handlerName, data, responseCallback);
     };
