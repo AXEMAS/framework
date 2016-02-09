@@ -482,8 +482,10 @@ public class SectionFragment extends Fragment {
         super.onDetach();
         Log.d("axemas-debug", String.format("Detaching Fragment %s...", this));
         mListener = null;
-        this.webView.destroy();
-        this.webView = null;
+        if (this.webView != null) {
+            this.webView.destroy();
+            this.webView = null;
+        }
     }
 
     @Override
