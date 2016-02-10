@@ -285,6 +285,17 @@ public class SectionFragment extends Fragment {
             }
         });
 
+        this.jsbridge.registerHandler("log", new JavascriptBridge.Handler() {
+            @Override
+            public void call(Object data, JavascriptBridge.Callback callback) {
+                JSONObject jsonData = (JSONObject) data;
+                try {
+                    Log.d(jsonData.getString("tag"), jsonData.getString("message"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         this.jsbridge.registerHandler("dialog", new JavascriptBridge.Handler() {
             void addDialogButton(AlertDialog.Builder builder, JSONArray buttons,
@@ -484,8 +495,10 @@ public class SectionFragment extends Fragment {
         super.onDetach();
         Log.d("axemas-debug", String.format("Detaching Fragment %s...", this));
         mListener = null;
-        this.webView.destroy();
-        this.webView = null;
+        if (this.webView != null) {
+            this.webView.destroy();
+            this.webView = null;
+        }
     }
 
     @Override

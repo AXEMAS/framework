@@ -346,6 +346,13 @@ navigationType:(UIWebViewNavigationType)navigationType {
         responseCallback(nil);
     }];
     
+    [self.bridge registerHandler:@"log" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSDictionary * dataDict = (NSDictionary*)data;
+        NSLog([NSString stringWithFormat:@"%@ - %@", [dataDict objectForKey:@"tag"], [dataDict objectForKey:@"message"]]);
+        
+        responseCallback(nil);
+    }];
+    
     __weak SectionViewController *weakController = self;
     [self.bridge registerHandler:@"dialog" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSDictionary *dialogInfo = (NSDictionary*)data;

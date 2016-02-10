@@ -1,337 +1,389 @@
 ;
 (function (win, undefined) {
-	"use strict";
+    "use strict";
 
-	var axemas = win['axemas'] = (win['axemas'] || {});
+    var axemas = win['axemas'] = (win['axemas'] || {});
+    axemas._platform_cache = null;
 
-	axemas.goto = function (data) {
-		if (typeof data === 'string' || data instanceof String)
-			data = {
-				'url': data
-			};
+    axemas.goto = function (data) {
+        if (typeof data === 'string' || data instanceof String)
+            data = {
+                'url': data
+            };
 
-		if (axemas.getPlatform() == 'unsupported')
-			window.location = '/' + data["url"];
-		else
-			axemas.call('goto', data);
-	};
+        if (axemas.getPlatform() == 'unsupported')
+            window.location = '/' + data["url"];
+        else
+            axemas.call('goto', data);
+    };
 
-	axemas.gotoFromSidebar = function (data) {
-		if (typeof data === 'string' || data instanceof String)
-			data = {
-				'url': data
-			};
+    axemas.gotoFromSidebar = function (data) {
+        if (typeof data === 'string' || data instanceof String)
+            data = {
+                'url': data
+            };
 
-		if (axemas.getPlatform() == 'unsupported')
-			window.location = '../' + data["url"];
-		else
-			axemas.call('gotoFromSidebar', data);
-	};
+        if (axemas.getPlatform() == 'unsupported')
+            window.location = '../' + data["url"];
+        else
+            axemas.call('gotoFromSidebar', data);
+    };
 
-	axemas.showProgressHUD = function () {
-		axemas.call('showProgressHUD', {});
-	};
+    axemas.showProgressHUD = function () {
+        axemas.call('showProgressHUD', {});
+    };
 
-	axemas.hideProgressHUD = function () {
-		axemas.call('hideProgressHUD', {});
-	};
+    axemas.hideProgressHUD = function () {
+        axemas.call('hideProgressHUD', {});
+    };
 
-	axemas.dialog = function (title, message, buttons, onButtonClickCallback) {
-		axemas.call('dialog', {
-				title: title,
-				message: message,
-				buttons: buttons
-			},
-			onButtonClickCallback);
-	};
+    axemas.dialog = function (title, message, buttons, onButtonClickCallback) {
+        axemas.call('dialog', {
+                title: title,
+                message: message,
+                buttons: buttons
+            },
+            onButtonClickCallback);
+    };
 
-	axemas.alert = function (title, message) {
-		axemas.dialog(title, message, ['Ok']);
-	};
+    axemas.alert = function (title, message) {
+        if (axemas.getPlatform() == 'unsupported')
+            alert(title + "\n\n" + message);
+        else
+            axemas.dialog(title, message, ['Ok']);
+    };
 
-	axemas.getPlatform = function () {
-		if (navigator.userAgent.match(/Windows Phone/i))
-			return 'winphone';
-		if (navigator.userAgent.match(/Android/i))
-			return 'android';
-		if (navigator.userAgent.match(/iPhone|iPad|iPod/i))
-			return 'ios';
+    axemas.getPlatform = function () {
+        if (axemas._platform_cache !== null)
+            return axemas._platform_cache;
 
+        var platform = 'unsupported';
+        if (navigator.userAgent.match(/Windows Phone/i))
+            platform = 'winphone';
+        else if (navigator.userAgent.match(/Android/i))
+            platform = 'android';
+        else if (navigator.userAgent.match(/iPhone|iPad|iPod/i))
+            platform = 'ios';
 
-		return 'unsupported';
-	};
+        axemas._platform_cache = platform;
+        return platform;
+    };
 
-	axemas.storeData = function (key, value) {
-		axemas.call('storeData', {
-			'key': key,
-			'value': value
-		});
-	};
+    axemas.storeData = function (key, value) {
+        if (axemas.getPlatform() == 'unsupported')
+            localStorage.setItem(key, value);
+        else
+            axemas.call('storeData', {
+                'key': key,
+                'value': value
+            });
+    };
 
-	axemas.fetchData = function (key, callback) {
-		axemas.call('fetchData', key, callback);
-	};
+    axemas.fetchData = function (key, callback) {
+        if (axemas.getPlatform() == 'unsupported') {
+            var data = {};
+            data[key] = localStorage.getItem(key);
+            callback(data);
+        }
+        else
+            axemas.call('fetchData', key, callback);
+    };
 
-	axemas.removeData = function (key) {
-		axemas.call('removeData', key);
-	};
+    axemas.removeData = function (key) {
+        if (axemas.getPlatform() == 'unsupported')
+            localStorage.removeItem(key);
+        else
+            axemas.call('removeData', key);
+    };
 
-	axemas.call = function (handlerName, data, responseCallback) {
-		WebViewJavascriptBridge.callHandler(handlerName, data, responseCallback);
-	};
+    axemas.log = function (data) {
+        if (typeof data === 'string' || data instanceof String)
+            data = {
+                'tag': 'AXEMAS_LOG',
+                'message': String(data)
+            };
 
-	axemas.register = function (handlerName, handler) {
-		WebViewJavascriptBridge.registerHandler(handlerName, handler);
-	};
+        console.log(data['tag'] + " - " + data['message']);
+        if (axemas.getPlatform() !== 'unsupported')
+            axemas.call('log', data);
+    };
 
+    axemas.call = function (handlerName, data, responseCallback) {
+        WebViewJavascriptBridge.callHandler(handlerName, data, responseCallback);
+    };
 
-	// Support for native calls on WindowsPhone
-	if (axemas.getPlatform() == 'winphone') {
-		if (!win.WebViewJavascriptBridge) {
-			var messageHandlers = {};
-			var responseCallbacks = {};
-			var uniqueId = 1;
+    axemas.register = function (handlerName, handler) {
+        WebViewJavascriptBridge.registerHandler(handlerName, handler);
+    };
 
-			var callHandler = function (handlerName, data, responseCallback) {
-				var message = {
-					'type': 'CallHandler',
-					'handlerName': handlerName,
-					'data': data
-				};
-				if (responseCallback) {
-					var callbackId = 'cb_' + (uniqueId++) + '_' + new Date().getTime();
-					responseCallbacks[callbackId] = responseCallback;
-					message['callbackId'] = callbackId;
-				}
+    
+    // Provide a fake WebViewJavascriptBridge for development in browser
+    if (axemas.getPlatform() == 'unsupported') {
+        if (!win.WebViewJavascriptBridge) {
+            var messageHandlers = {};
+            
+            var registerHandler = function(handlerName, handler) {
+                messageHandlers[handlerName] = handler;
+            };
+            
+            var callHandler = function(handlerName, data, responseCallback) {
+                setTimeout(function() { messageHandlers[handlerName](data, responseCallback); }, 0);
+            }
+            
+            win.WebViewJavascriptBridge = {
+                registerHandler: registerHandler,
+                callHandler: callHandler,
+            };
+        }
+    }
 
-				var encodedMessage = JSON.stringify(message);
-				window.external.notify(encodedMessage);
-			};
+    // Support for native calls on WindowsPhone
+    if (axemas.getPlatform() == 'winphone') {
+        if (!win.WebViewJavascriptBridge) {
+            var messageHandlers = {};
+            var responseCallbacks = {};
+            var uniqueId = 1;
 
-			var registerHandler = function (handlerName, handler) {
-				messageHandlers[handlerName] = handler;
-			};
+            var callHandler = function (handlerName, data, responseCallback) {
+                var message = {
+                    'type': 'CallHandler',
+                    'handlerName': handlerName,
+                    'data': data
+                };
+                if (responseCallback) {
+                    var callbackId = 'cb_' + (uniqueId++) + '_' + new Date().getTime();
+                    responseCallbacks[callbackId] = responseCallback;
+                    message['callbackId'] = callbackId;
+                }
 
-			var _callJSCallback = function (callbackId, data) {
-				var responseCallback = responseCallbacks[callbackId];
-				if (!responseCallback) {
-					return;
-				}
-				delete responseCallbacks[callbackId];
-				responseCallback(JSON.parse(data));
-			};
+                var encodedMessage = JSON.stringify(message);
+                window.external.notify(encodedMessage);
+            };
 
-			var _callJSHandler = function (handlerName, data, callbackId) {
-				var responseCallback = function (responseData) {
-					var message = {
-						'type': 'CallCallback',
-						'callbackId': callbackId,
-						'data': responseData
-					};
-					var encodedMessage = JSON.stringify(message);
-					window.external.notify(encodedMessage);
-				}
+            var registerHandler = function (handlerName, handler) {
+                messageHandlers[handlerName] = handler;
+            };
 
-				var handler = messageHandlers[handlerName];
-				if (!handler) {
-					console.log('No handler in place for message', data);
-					responseCallback({});
-					return;
-				}
+            var _callJSCallback = function (callbackId, data) {
+                var responseCallback = responseCallbacks[callbackId];
+                if (!responseCallback) {
+                    return;
+                }
+                delete responseCallbacks[callbackId];
+                responseCallback(JSON.parse(data));
+            };
 
-				handler(JSON.parse(data), responseCallback);
-			}
+            var _callJSHandler = function (handlerName, data, callbackId) {
+                var responseCallback = function (responseData) {
+                    var message = {
+                        'type': 'CallCallback',
+                        'callbackId': callbackId,
+                        'data': responseData
+                    };
+                    var encodedMessage = JSON.stringify(message);
+                    window.external.notify(encodedMessage);
+                }
 
-			win.WebViewJavascriptBridge = {
-				registerHandler: registerHandler,
-				callHandler: callHandler,
-				_callJSCallback: _callJSCallback,
-				_callJSHandler: _callJSHandler
-			};
-		}
-	}
+                var handler = messageHandlers[handlerName];
+                if (!handler) {
+                    console.log('No handler in place for message', data);
+                    responseCallback({});
+                    return;
+                }
 
-	// Support for native calls on Android
-	if (axemas.getPlatform() == 'android') {
-		if (!win.WebViewJavascriptBridge) {
-			var messageHandlers = {};
-			var responseCallbacks = {};
-			var uniqueId = 1;
+                handler(JSON.parse(data), responseCallback);
+            }
 
-			var callHandler = function (handlerName, data, responseCallback) {
-				var message = {
-					data: data
-				};
-				if (responseCallback) {
-					var callbackId = 'cb_' + (uniqueId++) + '_' + new Date().getTime();
-					responseCallbacks[callbackId] = responseCallback;
-					message['callbackId'] = callbackId;
-				}
+            win.WebViewJavascriptBridge = {
+                registerHandler: registerHandler,
+                callHandler: callHandler,
+                _callJSCallback: _callJSCallback,
+                _callJSHandler: _callJSHandler
+            };
+        }
+    }
 
-				var encodedMessage = JSON.stringify(message);
-				AndroidNativeJS.callAndroid(handlerName, encodedMessage);
-			};
+    // Support for native calls on Android
+    if (axemas.getPlatform() == 'android') {
+        if (!win.WebViewJavascriptBridge) {
+            var messageHandlers = {};
+            var responseCallbacks = {};
+            var uniqueId = 1;
 
-			var registerHandler = function (handlerName, handler) {
-				messageHandlers[handlerName] = handler;
-			};
+            var callHandler = function (handlerName, data, responseCallback) {
+                var message = {
+                    data: data
+                };
+                if (responseCallback) {
+                    var callbackId = 'cb_' + (uniqueId++) + '_' + new Date().getTime();
+                    responseCallbacks[callbackId] = responseCallback;
+                    message['callbackId'] = callbackId;
+                }
 
-			var _callJSCallback = function (callbackId, data) {
-				var responseCallback = responseCallbacks[callbackId];
-				if (!responseCallback) {
-					return;
-				}
-				delete responseCallbacks[callbackId];
-				responseCallback(data);
-			};
+                var encodedMessage = JSON.stringify(message);
+                AndroidNativeJS.callAndroid(handlerName, encodedMessage);
+            };
 
-			var _callJSHandler = function (handlerName, data, callbackId) {
-				var responseCallback = function (responseData) {
-					AndroidNativeJS.callAndroidCallback(callbackId,
-						JSON.stringify(responseData));
-				}
+            var registerHandler = function (handlerName, handler) {
+                messageHandlers[handlerName] = handler;
+            };
 
-				var handler = messageHandlers[handlerName];
-				if (!handler) {
-					console.log('No handler in place for message', data);
-					responseCallback({});
-					return;
-				}
+            var _callJSCallback = function (callbackId, data) {
+                var responseCallback = responseCallbacks[callbackId];
+                if (!responseCallback) {
+                    return;
+                }
+                delete responseCallbacks[callbackId];
+                responseCallback(data);
+            };
 
-				handler(data, responseCallback);
-			}
+            var _callJSHandler = function (handlerName, data, callbackId) {
+                var responseCallback = function (responseData) {
+                    AndroidNativeJS.callAndroidCallback(callbackId,
+                        JSON.stringify(responseData));
+                }
 
-			win.WebViewJavascriptBridge = {
-				registerHandler: registerHandler,
-				callHandler: callHandler,
-				_callJSCallback: _callJSCallback,
-				_callJSHandler: _callJSHandler
-			};
-		}
-	}
+                var handler = messageHandlers[handlerName];
+                if (!handler) {
+                    console.log('No handler in place for message', data);
+                    responseCallback({});
+                    return;
+                }
 
-	// Support for native calls on iOS
-	if (axemas.getPlatform() == 'ios') {
-		if (!win.WebViewJavascriptBridge) {
-			var messagingIframe
-			var sendMessageQueue = []
-			var receiveMessageQueue = []
-			var messageHandlers = {}
+                handler(data, responseCallback);
+            }
 
-			var CUSTOM_PROTOCOL_SCHEME = 'wvjbscheme'
-			var QUEUE_HAS_MESSAGE = '__WVJB_QUEUE_MESSAGE__'
+            win.WebViewJavascriptBridge = {
+                registerHandler: registerHandler,
+                callHandler: callHandler,
+                _callJSCallback: _callJSCallback,
+                _callJSHandler: _callJSHandler
+            };
+        }
+    }
 
-			var responseCallbacks = {}
-			var uniqueId = 1
+    // Support for native calls on iOS
+    if (axemas.getPlatform() == 'ios') {
+        if (!win.WebViewJavascriptBridge) {
+            var messagingIframe
+            var sendMessageQueue = []
+            var receiveMessageQueue = []
+            var messageHandlers = {}
 
-			var _createQueueReadyIframe = function (doc) {
-				messagingIframe = doc.createElement('iframe')
-				messagingIframe.style.display = 'none'
-				doc.documentElement.appendChild(messagingIframe)
-			}
+            var CUSTOM_PROTOCOL_SCHEME = 'wvjbscheme'
+            var QUEUE_HAS_MESSAGE = '__WVJB_QUEUE_MESSAGE__'
 
-			var send = function (data, responseCallback) {
-				_doSend({
-					data: data
-				}, responseCallback)
-			}
+            var responseCallbacks = {}
+            var uniqueId = 1
 
-			var registerHandler = function (handlerName, handler) {
-				messageHandlers[handlerName] = handler
-			}
+            var _createQueueReadyIframe = function (doc) {
+                messagingIframe = doc.createElement('iframe')
+                messagingIframe.style.display = 'none'
+                doc.documentElement.appendChild(messagingIframe)
+            }
 
-			var callHandler = function (handlerName, data, responseCallback) {
-				_doSend({
-					handlerName: handlerName,
-					data: data
-				}, responseCallback)
-			}
+            var send = function (data, responseCallback) {
+                _doSend({
+                    data: data
+                }, responseCallback)
+            }
 
-			var _doSend = function (message, responseCallback) {
-				if (responseCallback) {
-					var callbackId = 'cb_' + (uniqueId++) + '_' + new Date().getTime()
-					responseCallbacks[callbackId] = responseCallback
-					message['callbackId'] = callbackId
-				}
-				sendMessageQueue.push(message)
-				messagingIframe.src = CUSTOM_PROTOCOL_SCHEME + '://' + QUEUE_HAS_MESSAGE
-			}
+            var registerHandler = function (handlerName, handler) {
+                messageHandlers[handlerName] = handler
+            }
 
-			var _fetchQueue = function () {
-				var messageQueueString = JSON.stringify(sendMessageQueue)
-				sendMessageQueue = []
-				return messageQueueString
-			}
+            var callHandler = function (handlerName, data, responseCallback) {
+                _doSend({
+                    handlerName: handlerName,
+                    data: data
+                }, responseCallback)
+            }
 
-			var _defaultHandler = function (data, responseCallback) {
-				console.log('No handler in place for message', data);
-				if (responseCallback)
-					responseCallback(null);
-			}
+            var _doSend = function (message, responseCallback) {
+                if (responseCallback) {
+                    var callbackId = 'cb_' + (uniqueId++) + '_' + new Date().getTime()
+                    responseCallbacks[callbackId] = responseCallback
+                    message['callbackId'] = callbackId
+                }
+                sendMessageQueue.push(message)
+                messagingIframe.src = CUSTOM_PROTOCOL_SCHEME + '://' + QUEUE_HAS_MESSAGE
+            }
 
-			var _dispatchMessageFromObjC = function (messageJSON) {
-				setTimeout(function _timeoutDispatchMessageFromObjC() {
-					var message = JSON.parse(messageJSON)
-					var messageHandler
+            var _fetchQueue = function () {
+                var messageQueueString = JSON.stringify(sendMessageQueue)
+                sendMessageQueue = []
+                return messageQueueString
+            }
 
-					if (message.responseId) {
-						var responseCallback = responseCallbacks[message.responseId]
-						if (!responseCallback) {
-							return;
-						}
-						delete responseCallbacks[message.responseId]
-						responseCallback(message.responseData)
-					} else {
-						var responseCallback
-						if (message.callbackId) {
-							var callbackResponseId = message.callbackId
-							responseCallback = function (responseData) {
-								_doSend({
-									responseId: callbackResponseId,
-									responseData: responseData
-								})
-							}
-						}
+            var _defaultHandler = function (data, responseCallback) {
+                console.log('No handler in place for message', data);
+                if (responseCallback)
+                    responseCallback(null);
+            }
 
-						var handler = _defaultHandler
-						if (message.handlerName) {
-							handler = messageHandlers[message.handlerName]
-						}
+            var _dispatchMessageFromObjC = function (messageJSON) {
+                setTimeout(function _timeoutDispatchMessageFromObjC() {
+                    var message = JSON.parse(messageJSON)
+                    var messageHandler
 
-						try {
-							handler(message.data, responseCallback)
-						} catch (exception) {
-							if (typeof console != 'undefined') {
-								console.log("WebViewJavascriptBridge: WARNING: javascript handler threw.", message, exception)
-							}
-						}
-					}
-				})
-			}
+                    if (message.responseId) {
+                        var responseCallback = responseCallbacks[message.responseId]
+                        if (!responseCallback) {
+                            return;
+                        }
+                        delete responseCallbacks[message.responseId]
+                        responseCallback(message.responseData)
+                    } else {
+                        var responseCallback
+                        if (message.callbackId) {
+                            var callbackResponseId = message.callbackId
+                            responseCallback = function (responseData) {
+                                _doSend({
+                                    responseId: callbackResponseId,
+                                    responseData: responseData
+                                })
+                            }
+                        }
 
-			var _handleMessageFromObjC = function (messageJSON) {
-				_dispatchMessageFromObjC(messageJSON)
-			}
+                        var handler = _defaultHandler
+                        if (message.handlerName) {
+                            handler = messageHandlers[message.handlerName]
+                        }
 
-			win.WebViewJavascriptBridge = {
-				send: send,
-				registerHandler: registerHandler,
-				callHandler: callHandler,
-				_fetchQueue: _fetchQueue,
-				_handleMessageFromObjC: _handleMessageFromObjC
-			}
+                        try {
+                            handler(message.data, responseCallback)
+                        } catch (exception) {
+                            if (typeof console != 'undefined') {
+                                console.log("WebViewJavascriptBridge: WARNING: javascript handler threw.", message, exception)
+                            }
+                        }
+                    }
+                })
+            }
 
-			var doc = win.document
-			_createQueueReadyIframe(doc)
-		}
-	}
+            var _handleMessageFromObjC = function (messageJSON) {
+                _dispatchMessageFromObjC(messageJSON)
+            }
+
+            win.WebViewJavascriptBridge = {
+                send: send,
+                registerHandler: registerHandler,
+                callHandler: callHandler,
+                _fetchQueue: _fetchQueue,
+                _handleMessageFromObjC: _handleMessageFromObjC
+            }
+
+            var doc = win.document
+            _createQueueReadyIframe(doc)
+        }
+    }
 
 })(window);
 
 /* Those are needed only for WindowsPhone */
 var __axemas_WebViewJavascriptBridge_callJSCallback = function (callbackId, data) {
-	WebViewJavascriptBridge._callJSCallback(callbackId, data);
+    WebViewJavascriptBridge._callJSCallback(callbackId, data);
 }
 var __axemas_WebViewJavascriptBridge_callJSHandler = function (handlerName, data, callbackId) {
-	WebViewJavascriptBridge._callJSHandler(handlerName, data, callbackId);
+    WebViewJavascriptBridge._callJSHandler(handlerName, data, callbackId);
 }

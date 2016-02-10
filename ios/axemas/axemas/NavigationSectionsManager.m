@@ -179,6 +179,10 @@ static SectionsManagerStatus *statusInstance = nil;
     return sectionViewController.registeredSectionController;
 }
 
++ (void) setSidebarButtonVisibility:(BOOL)visible {
+    [self activeController].navigationItem.leftBarButtonItem.customView.hidden = !visible;
+}
+
 + (BOOL) popViews:(NSInteger) viewsToPop{
     NSArray *viewStack = [[NavigationSectionsManager activeNavigationController] viewControllers];
     long limit = MIN(MAX(0, viewsToPop), [viewStack count]);
