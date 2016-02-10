@@ -88,7 +88,7 @@ public class NavigationSectionsManager {
         editor.commit();
     }
 
-    public static String  getValueForKey(Context context, String key){
+    public static String getValueForKey(Context context, String key){
         SharedPreferences sharedPreferences =
                 context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         return sharedPreferences.getString(key, null);

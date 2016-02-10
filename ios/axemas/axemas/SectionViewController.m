@@ -323,8 +323,9 @@ navigationType:(UIWebViewNavigationType)navigationType {
     }];
         
     [self.bridge registerHandler:@"fetchData" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSString * key = (NSString*) data;
-        NSLog(@"fetchData: %@",key);
+		NSDictionary * dataDict = (NSDictionary*)data;
+        NSString * key = [dataDict objectForKey:@"key"];
+        NSLog(@"fetchData: %@", key);
 
         NSMutableDictionary *mutableParameters = [[NSMutableDictionary alloc] init];
         NSString *value = [SharedStorage getValueFrom:key];
@@ -337,7 +338,8 @@ navigationType:(UIWebViewNavigationType)navigationType {
     }];
     
     [self.bridge registerHandler:@"removeData" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSString * key = (NSString*)data;
+		NSDictionary * dataDict = (NSDictionary*)data;
+        NSString * key = [dataDict objectForKey:@"key"];
         NSLog(@"removeData: %@", key);
         
         [SharedStorage removeValueFrom:key];

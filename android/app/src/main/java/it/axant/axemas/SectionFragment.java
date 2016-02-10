@@ -238,7 +238,8 @@ public class SectionFragment extends Fragment {
                 JSONObject jsonData = (JSONObject) data;
                 Log.d("axemas", "storeData: "+jsonData.toString());
                 try {
-                    SharedStorage.store((AXMActivity) getActivity(), jsonData.getString("key"),jsonData.getString("value"));
+                    SharedStorage.store((AXMActivity) getActivity(), jsonData.getString("key"),
+																	 jsonData.getString("value"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -248,9 +249,15 @@ public class SectionFragment extends Fragment {
         this.jsbridge.registerHandler("fetchData", new JavascriptBridge.Handler() {
             @Override
             public void call(Object data, JavascriptBridge.Callback callback) {
-                String key = (String) data;
+				JSONObject jsonData = (JSONObject) data;
+                String key = "";
+                try {
+                    key = jsonData.getString("key");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 JSONObject obj = new JSONObject();
-                Log.d("axemas", "fetchData: "+key);
+                Log.d("axemas", "fetchData: " + key);
                 AXMActivity mainAxmActivity = (AXMActivity) getActivity();
                 if(mainAxmActivity != null) {
                     try {
@@ -266,8 +273,14 @@ public class SectionFragment extends Fragment {
         this.jsbridge.registerHandler("removeData", new JavascriptBridge.Handler() {
             @Override
             public void call(Object data, JavascriptBridge.Callback callback) {
-                String key = (String) data;
-                Log.d("axemas", "removeData: "+key);
+				JSONObject jsonData = (JSONObject) data;
+                String key = "";
+                try {
+                    key = jsonData.getString("key");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.d("axemas", "removeData: " + key);
                 SharedStorage.removeValue((AXMActivity) getActivity(), key);
             }
         });
