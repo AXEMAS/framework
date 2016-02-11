@@ -261,10 +261,6 @@
         
         self.webView.hidden = NO;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
-        [self.bridge callHandler:@"ready" data:@{@"url": self.request.URL.absoluteString} responseCallback:^(id responseData) {
-            NSLog(@"Page handled ready event with: %@", responseData);
-        }];
     }
 }
 

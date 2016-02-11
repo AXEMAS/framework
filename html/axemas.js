@@ -281,6 +281,12 @@
 			var responseCallbacks = {}
 			var uniqueId = 1
 
+			window.onload = function() {
+				var readyHandler = messageHandlers["ready"];
+				if (readyHandler)
+					readyHandler({url: window.location});
+			}
+
 			var _createQueueReadyIframe = function (doc) {
 				messagingIframe = doc.createElement('iframe')
 				messagingIframe.style.display = 'none'
