@@ -30,6 +30,10 @@
 
 }
 
+- (void)sectionViewWillDisappear {
+    
+}
+
 - (void)sectionOnViewCreate:(UIView *)view {
     
 }

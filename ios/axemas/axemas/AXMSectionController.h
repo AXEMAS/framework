@@ -17,6 +17,7 @@
 - (void)sectionDidLoad;
 - (void)sectionWillLoad;
 - (void)sectionViewWillAppear;
+- (void)sectionViewWillDisappear;
 - (void)sectionOnViewCreate:(UIView*)view;
 - (BOOL)isInsideWebView:(CGPoint)point withEvent:(UIEvent*)event;
 - (void) navigationbarRightButtonAction;

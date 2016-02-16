@@ -238,6 +238,10 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    //Call sectionViewWillDisappear
+    if (self.sectionController)
+        [self.sectionController sectionViewWillDisappear];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
