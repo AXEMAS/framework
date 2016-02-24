@@ -22,8 +22,8 @@ fi
 
 
 echo Starting to build AXEMAS library
-xcodebuild -sdk iphoneos -target $TARGET -configuration $CONFIGURATION  DSTROOT=$BUILD_DIR
-xcodebuild -sdk iphonesimulator -target $TARGET -configuration $CONFIGURATION  DSTROOT=$BUILD_DIR
+xcodebuild -sdk iphoneos -target $TARGET -configuration $CONFIGURATION  DSTROOT=$BUILD_DIR OTHER_CFLAGS="-fembed-bitcode"
+xcodebuild -sdk iphonesimulator -target $TARGET -configuration $CONFIGURATION  DSTROOT=$BUILD_DIR OTHER_CFLAGS="-fembed-bitcode"
 lipo -create -output $LIBNAME $BUILD_DIR/Release-iphoneos/$LIBNAME $BUILD_DIR/Release-iphonesimulator/$LIBNAME
 echo Library build AXEMAS complete
 
@@ -46,8 +46,8 @@ echo Performing project cleanup
 rm -R $AXO_BUILD_DIR
 
 echo Starting to build AXO library
-xcodebuild -sdk iphoneos -target $AXO_TARGET -configuration $CONFIGURATION  DSTROOT=$AXO_BUILD_DIR
-xcodebuild -sdk iphonesimulator -target $AXO_TARGET -configuration $CONFIGURATION  DSTROOT=$AXO_BUILD_DIR
+xcodebuild -sdk iphoneos -target $AXO_TARGET -configuration $CONFIGURATION  DSTROOT=$AXO_BUILD_DIR OTHER_CFLAGS="-fembed-bitcode"
+xcodebuild -sdk iphonesimulator -target $AXO_TARGET -configuration $CONFIGURATION  DSTROOT=$AXO_BUILD_DIR OTHER_CFLAGS="-fembed-bitcode"
 lipo -create -output $AXO_LIBNAME $AXO_BUILD_DIR/Release-iphoneos/$AXO_LIBNAME $AXO_BUILD_DIR/Release-iphonesimulator/$AXO_LIBNAME
 echo Library build AXO complete
 
