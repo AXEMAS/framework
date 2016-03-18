@@ -11,10 +11,6 @@ import java.lang.ref.WeakReference;
 public class AXMSectionController {
     private WeakReference<SectionFragment> section;
 
-    protected AXMSectionController() {
-        throw new UnsupportedOperationException("Section Controllers should never be created without a section");
-    }
-
     public AXMSectionController(SectionFragment section) {
         this.section = new WeakReference<SectionFragment>(section);
     }
