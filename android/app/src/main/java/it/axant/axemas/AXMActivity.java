@@ -38,8 +38,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import com.splunk.mint.Mint;
-
 import it.axant.axemas.libs.AnimationLayout;
 
 
@@ -122,18 +120,6 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
         Log.d("axemas-debug", "Setting actionBarButtonRight ICON " + String.valueOf(resourceName) + " -> " + String.valueOf(actionBarButtonRight));
         if (actionBarButtonRight != null) {
             actionBarButtonRight.setImageResource(getResources().getIdentifier(resourceName, "drawable", getPackageName()));
-        }
-    }
-
-    protected void startCrashReporter() {
-        try {
-            String key = getResources()
-                    .getString(getResources()
-                            .getIdentifier("splunk_api_key", "string", getPackageName()));
-            Mint.initAndStartSession(AXMActivity.this, key);
-        }
-        catch(Resources.NotFoundException e){
-            e.printStackTrace();
         }
     }
 
