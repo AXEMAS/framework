@@ -17,7 +17,6 @@
 		3C88F23617C7B91D001AF7F4 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C88F23517C7B91D001AF7F4 /* Default@2x.png */; };
 		3C88F23817C7B91D001AF7F4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C88F23717C7B91D001AF7F4 /* Default-568h@2x.png */; };
 		3C9D6D7817E0CA9300A766D5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C9D6D7717E0CA9300A766D5 /* SystemConfiguration.framework */; };
-		3CEDDF1E18F5F14500BAEB5E /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CEDDF1D18F5F14500BAEB5E /* MapViewController.m */; };
 		3CEDDF2018F5F23400BAEB5E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CEDDF1F18F5F23400BAEB5E /* MapKit.framework */; };
 		3CEDDF2618F5FD8700BAEB5E /* IndexSectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CEDDF2518F5FD8700BAEB5E /* IndexSectionController.m */; };
 		5A0E7E9D1A6E95120065244C /* axemas.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5A0E7E9B1A6E95120065244C /* axemas.bundle */; };
@@ -47,8 +46,6 @@
 		3C88F23717C7B91D001AF7F4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3C9D6D7717E0CA9300A766D5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3CEDDF1618F59CC800BAEB5E /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
-		3CEDDF1C18F5F14500BAEB5E /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = {{project_id}}/MapViewController.h; sourceTree = "<group>"; };
-		3CEDDF1D18F5F14500BAEB5E /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapViewController.m; path = {{project_id}}/MapViewController.m; sourceTree = "<group>"; };
 		3CEDDF1F18F5F23400BAEB5E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		3CEDDF2418F5FD8700BAEB5E /* IndexSectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IndexSectionController.h; path = {{project_id}}/IndexSectionController.h; sourceTree = "<group>"; };
 		3CEDDF2518F5FD8700BAEB5E /* IndexSectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IndexSectionController.m; path = {{project_id}}/IndexSectionController.m; sourceTree = "<group>"; };
@@ -148,8 +145,6 @@
 				5AA9A18719A3B055007F5386 /* slide_icon@2x.png */,
 				3C88F23017C7B91D001AF7F4 /* AppDelegate.h */,
 				3C88F23117C7B91D001AF7F4 /* AppDelegate.m */,
-				3CEDDF1C18F5F14500BAEB5E /* MapViewController.h */,
-				3CEDDF1D18F5F14500BAEB5E /* MapViewController.m */,
 				5A5B94D51A02664C0068C534 /* BaseSectionController.h */,
 				5A5B94D61A02664C0068C534 /* BaseSectionController.m */,
 				3CEDDF2418F5FD8700BAEB5E /* IndexSectionController.h */,
@@ -288,7 +283,6 @@
 				3C88F23217C7B91D001AF7F4 /* AppDelegate.m in Sources */,
 				5A5B94DD1A028A990068C534 /* NativeViewController.m in Sources */,
 				3CEDDF2618F5FD8700BAEB5E /* IndexSectionController.m in Sources */,
-				3CEDDF1E18F5F14500BAEB5E /* MapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

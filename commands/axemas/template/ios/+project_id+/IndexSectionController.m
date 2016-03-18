@@ -9,7 +9,6 @@
 #import "IndexSectionController.h"
 #import "WebViewJavascriptBridge.h"
 #import "NavigationSectionsManager.h"
-#import "MapViewController.h"
 #import "NativeViewController.h"
 #import "SWRevealViewController.h"
 

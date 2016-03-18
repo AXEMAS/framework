@@ -1,6 +1,7 @@
 package {{package_loc}}.{{package_company}}.{{package_name}};
 
 import android.os.Build;
+import android.view.ViewGroup;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,16 +18,17 @@ public class IndexSectionController extends BaseSectionController {
     }
 
     @Override
-    public void sectionWillLoad() {
+    public void sectionOnViewCreate(ViewGroup view) {
+        super.sectionOnViewCreate(view);
 
-        this.section.getJSBridge().registerHandler("open-sidebar-from-native", new JavascriptBridge.Handler() {
+        this.getSection().getJSBridge().registerHandler("open-sidebar-from-native", new JavascriptBridge.Handler() {
             @Override
             public void call(Object data, JavascriptBridge.Callback callback) {
-                NavigationSectionsManager.getSidebarController((AXMActivity)section.getActivity()).toggleSidebar(true);
+                NavigationSectionsManager.getSidebarController((AXMActivity)getSection().getActivity()).toggleSidebar(true);
             }
         });
 
-        this.section.getJSBridge().registerHandler("send-device-name-from-native-to-js", new JavascriptBridge.Handler() {
+        this.getSection().getJSBridge().registerHandler("send-device-name-from-native-to-js", new JavascriptBridge.Handler() {
             @Override
             public void call(Object data, JavascriptBridge.Callback callback) {
                 JSONObject deviceInfo = new JSONObject();
@@ -36,7 +38,7 @@ public class IndexSectionController extends BaseSectionController {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                section.getJSBridge().callJS("display-device-model", deviceInfo, new JavascriptBridge.AndroidCallback() {
+                getSection().getJSBridge().callJS("display-device-model", deviceInfo, new JavascriptBridge.AndroidCallback() {
                     @Override
                     public void call(JSONObject data) {
                         //empty
@@ -45,7 +47,7 @@ public class IndexSectionController extends BaseSectionController {
             }
         });
 
-        this.section.getJSBridge().registerHandler("open-native-controller", new JavascriptBridge.Handler() {
+        this.getSection().getJSBridge().registerHandler("open-native-controller", new JavascriptBridge.Handler() {
             @Override
             public void call(Object data, JavascriptBridge.Callback callback) {
                 JSONObject datum = new JSONObject();
@@ -54,15 +56,15 @@ public class IndexSectionController extends BaseSectionController {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                NavigationSectionsManager.goTo(section.getActivity(), datum);
+                NavigationSectionsManager.goTo(getSection().getActivity(), datum);
             }
         });
 
 
-        this.section.getJSBridge().registerHandler("push-native-section", new JavascriptBridge.Handler() {
+        this.getSection().getJSBridge().registerHandler("push-native-section", new JavascriptBridge.Handler() {
             @Override
             public void call(Object data, JavascriptBridge.Callback callback) {
-                NavigationSectionsManager.getActiveNavigationController((AXMActivity)section.getActivity()).pushFragment(new NativeFragment(), "native_fragment");
+                NavigationSectionsManager.getActiveNavigationController((AXMActivity)getSection().getActivity()).pushFragment(new NativeFragment(), "native_fragment");
             }
         });
     }
