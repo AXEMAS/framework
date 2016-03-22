@@ -1,7 +1,7 @@
 import os
 from setuptools import setup
 
-version = "0.0.13"
+version = "0.0.14"
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -16,7 +16,7 @@ except IOError:
 
 setup(name='axemas',
       version=version,
-      url='axemas.readthedocs.org',
+      url='http://axemas.readthedocs.org',
       keywords="axemas quickstart",
       author='AXANT',
       author_email='info@axant.it',

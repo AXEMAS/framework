@@ -5,6 +5,7 @@ import re
 import stat
 import tempfile
 import shutil
+import platform
 
 from gearbox.command import TemplateCommand
 
@@ -111,7 +112,12 @@ class MakeBaseProject(TemplateCommand):
 
     def _lns(self, orig, dest):
         print("Linking {} -> {}".format(orig, dest))
-        os.symlink(orig, dest)
+        if platform.system() == 'Windows':
+            import ctypes
+            kdll = ctypes.windll.LoadLibrary("kernel32.dll")
+            kdll.CreateSymbolicLinkA(dest, orig, 1)
+        else:
+            os.symlink(orig, dest)
 
 
 class TemporaryDirectory(object):
