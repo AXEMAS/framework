@@ -115,7 +115,7 @@ class MakeBaseProject(TemplateCommand):
         if platform.system() == 'Windows':
             import ctypes
             kdll = ctypes.windll.LoadLibrary("kernel32.dll")
-            kdll.CreateSymbolicLinkA(dest, orig, 1)
+            kdll.CreateSymbolicLinkW(dest, orig, 1)
         else:
             os.symlink(orig, dest)
 
