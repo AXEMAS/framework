@@ -69,6 +69,25 @@
 		return platform;
 	};
 
+	axemas.platformDetails = function (callback) {
+		if (axemas._platform_details_cache !== null)
+			callback(axemas._platform_details_cache);
+
+		var platform_details = {
+			'model': 'unknow',
+			'systemName':'unknow',
+			'systemVersion':'unknow',
+		};
+
+		if (axemas.getPlatform() == 'unsupported') {
+			callback(platform_details);
+		} else 
+			axemas.call('platformDetails', {}, function(res) {
+				axemas._platform_details_cache = res;
+				callback(res);
+			});
+	};
+
 	axemas.storeData = function (key, value) {
 		if (axemas.getPlatform() == 'unsupported')
 			localStorage.setItem(key, value);

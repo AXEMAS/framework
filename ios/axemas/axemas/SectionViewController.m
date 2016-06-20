@@ -315,6 +315,15 @@ navigationType:(UIWebViewNavigationType)navigationType {
         responseCallback(nil);
     }];
     
+    
+    [self.bridge registerHandler:@"platformDetails" handler:^(id data, WVJBResponseCallback responseCallback) {
+        responseCallback(@{
+                           @"model": [UIDevice currentDevice].model,
+                           @"systemName": [UIDevice currentDevice].systemName,
+                           @"systemVersion": [UIDevice currentDevice].systemVersion
+                           });
+    }];
+    
     [self.bridge registerHandler:@"storeData" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSDictionary * dataDict = (NSDictionary*)data;
         NSLog(@"storeData: %@",dataDict);

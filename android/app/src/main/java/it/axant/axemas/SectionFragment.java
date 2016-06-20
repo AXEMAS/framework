@@ -232,6 +232,22 @@ public class SectionFragment extends Fragment {
             }
         });
 
+        this.jsbridge.registerHandler("platformDetails", new JavascriptBridge.Handler() {
+            @Override
+            public void call(Object data, JavascriptBridge.Callback callback) {
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("model", android.os.Build.MODEL);
+                    obj.put("systemName", "Android");
+                    obj.put("systemVersion", Build.VERSION.RELEASE);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                callback.call(obj);
+            }
+        });
+
+
         this.jsbridge.registerHandler("storeData", new JavascriptBridge.Handler() {
             @Override
             public void call(Object data, JavascriptBridge.Callback callback) {
