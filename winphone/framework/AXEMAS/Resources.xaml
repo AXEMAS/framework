@@ -1,0 +1,104 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:axemas"
+    xmlns:controls="using:axemas.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d">
+
+    <Style TargetType="controls:FrameContainer">
+        <Setter Property="UpdateMenuOnPageNavigated" Value="False" />
+        <Setter Property="UpdateTopBarOnPageNavigated" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:FrameContainer">
+                    <Grid x:Name="MainGrid" Background="#FFE3E3E3">
+                        <Grid.Resources>
+                            <Storyboard x:Name="OpenMenu">
+                                <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="Menu" d:IsOptimized="True">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CubicEase EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Duration="0:0:0.3" To="300" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="ApplicationGrid" d:IsOptimized="True">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CubicEase EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+
+                            <Storyboard x:Name="CloseMenu">
+                                <DoubleAnimation Duration="0:0:0.2" To="-300" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="Menu" d:IsOptimized="True">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CubicEase EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Duration="0:0:0.2" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="ApplicationGrid" d:IsOptimized="True">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CubicEase EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </Grid.Resources>
+
+                        <Grid x:Name="ApplicationGrid">
+                            <Grid.RenderTransform>
+                                <CompositeTransform TranslateX="0"/>
+                            </Grid.RenderTransform>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Grid x:Name="TopBarGrid" 
+                                          Background="#FF5D5D5D"
+                                          Height="85">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Change this horrible menu with a proper button -->
+                                <Border x:Name="MenuButton"
+                                                Height="60"
+                                                Width="60"
+                                                VerticalAlignment="Bottom">
+                                    <Image Source="Assets/Menu/MenuIcon.png" Margin="15" />
+                                </Border>
+
+                                <ContentControl x:Name="TopBar" Grid.Column="1"
+                                                        Content="{TemplateBinding TopBarPanel}"
+                                                        Height="60"
+                                                        VerticalAlignment="Bottom"
+                                                        HorizontalContentAlignment="Stretch" 
+                                                        VerticalContentAlignment="Stretch">
+                                </ContentControl>
+                            </Grid>
+
+                            <ContentControl Content="{TemplateBinding Content}"
+                                                    x:Name="FirstContentPresenter"
+                                                    Grid.Row="1"
+                                                    VerticalContentAlignment="Stretch"
+                                                    HorizontalContentAlignment="Stretch"/>
+                        </Grid>
+
+                        <ContentControl x:Name="Menu"
+                                                Width="300"
+                                                Content="{TemplateBinding MenuPanel}"
+                                                VerticalContentAlignment="Stretch"
+                                                HorizontalContentAlignment="Stretch" 
+                                                HorizontalAlignment="Left">
+                            <ContentControl.RenderTransform>
+                                <CompositeTransform TranslateX="-300"/>
+                            </ContentControl.RenderTransform>
+                        </ContentControl>
+
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
