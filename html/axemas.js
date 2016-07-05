@@ -4,7 +4,8 @@
 
 	var axemas = win['axemas'] = (win['axemas'] || {});
 	axemas._platform_cache = null;
-
+	axemas._platform_details_cache = null;
+	
 	axemas.goto = function (data) {
 		if (typeof data === 'string' || data instanceof String)
 			data = {
