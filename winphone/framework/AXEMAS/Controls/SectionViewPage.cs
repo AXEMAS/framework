@@ -24,7 +24,7 @@ using Windows.Storage.Streams;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Newtonsoft.Json.Linq;
-
+using Windows.ApplicationModel.Resources;
 
 namespace axemas.Controls
 {
@@ -257,6 +257,12 @@ namespace axemas.Controls
                 if ((topBar != null) && (topBar is TextBlock))
                 {
                     TextBlock topBarText = topBar as TextBlock;
+                    if (title != "" && title != null)
+                    {
+                        String localizedTitle = new ResourceLoader().GetString(title);
+                        if (localizedTitle != null && localizedTitle != "")
+                            title = localizedTitle;
+                    }
                     topBarText.Text = " " + title;
                 }
             }
