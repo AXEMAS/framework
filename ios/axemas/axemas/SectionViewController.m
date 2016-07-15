@@ -146,7 +146,7 @@
 }
 
 - (void)setupWithData:(NSDictionary*)data {
-    NSString *title = data[@"title"];
+    NSString *title = NSLocalizedString(data[@"title"], nil);
     NSString *icon = data[@"icon"];
     NSString *icon_selected = data[@"icon_selected"];
     NSString *showTabBarTitle = data[@"show_tab_bar_title"];
@@ -251,7 +251,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     if (![self.title length])
-        self.title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+        self.title = NSLocalizedString([self.webView stringByEvaluatingJavaScriptFromString:@"document.title"], nil);
     
     [self.webView stringByEvaluatingJavaScriptFromString:
      [NSString stringWithFormat:@"document.systemVersion = %f", [[[UIDevice currentDevice] systemVersion] floatValue]]];

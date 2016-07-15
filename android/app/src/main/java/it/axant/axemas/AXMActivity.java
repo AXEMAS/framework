@@ -136,6 +136,14 @@ public class AXMActivity extends Activity implements SectionFragment.SectionFrag
         return false;
     }
 
+    protected String getStringResourceByName(String aString) {
+        int resId = getResources().getIdentifier(aString, "string", getPackageName());
+        if(resId == 0)
+            return aString;
+
+        return getString(resId);
+    }
+
     protected void setTitle(String title) {
         if (actionBarTitle != null)
             actionBarTitle.setText(title);

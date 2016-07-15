@@ -585,7 +585,7 @@ public class SectionFragment extends Fragment {
 
             if (view != null && view.getTitle() != null && !view.getTitle().contains(".html"))
                 if (getActivity() != null) {
-                    fragmentTitle = view.getTitle();
+                    fragmentTitle = ((AXMActivity) getActivity()).getStringResourceByName(view.getTitle());
                     ((AXMActivity) getActivity()).setTitle(fragmentTitle);
                 }
 
