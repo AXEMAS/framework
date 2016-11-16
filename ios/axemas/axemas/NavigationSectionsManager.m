@@ -173,6 +173,17 @@ static SectionsManagerStatus *statusInstance = nil;
     return [SectionsManagerStatus sharedInstance].sidebarController;
 }
 
++ (UIViewController*)getViewController:(NSString *)name {
+    if ([name isEqualToString:@"sidebar"]) {
+        SWRevealViewController *viewController = [NavigationSectionsManager activeSidebarController];
+        return viewController.rearViewController;
+    }
+    else if ([name isEqualToString:@"active"])
+        return [NavigationSectionsManager activeController];
+    else
+        return nil;
+}
+
 + (SectionViewController*)sidebarSectionController {
     SWRevealViewController *viewController = [NavigationSectionsManager activeSidebarController];
     SectionViewController *sectionViewController = (SectionViewController *)viewController.rearViewController;

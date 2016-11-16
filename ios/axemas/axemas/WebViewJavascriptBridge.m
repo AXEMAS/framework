@@ -7,6 +7,7 @@
 //
 
 #import "WebViewJavascriptBridge.h"
+#import "NavigationSectionsManager.h"
 #import <UIKit/UIWebView.h>
 
 #if __has_feature(objc_arc_weak)
@@ -75,6 +76,10 @@ static bool logging = false;
 
 - (void)registerHandler:(NSString *)handlerName handler:(WVJBHandler)handler {
     _messageHandlers[handlerName] = [handler copy];
+}
+
+- (id)lookupHandler:(NSString*)handlerName {
+    return _messageHandlers[handlerName];
 }
 
 - (void)reset {
@@ -170,6 +175,8 @@ static bool logging = false;
             NSString* callbackId = message[@"callbackId"];
             if (callbackId) {
                 responseCallback = ^(id responseData) {
+                    if (responseData == nil)
+                        responseData = @{};
                     WVJBMessage* msg = @{ @"responseId":callbackId, @"responseData":responseData };
                     [self _queueMessage:msg];
                 };
@@ -180,13 +187,32 @@ static bool logging = false;
             }
             
             WVJBHandler handler;
-            if (message[@"handlerName"]) {
-                handler = _messageHandlers[message[@"handlerName"]];
+            NSString *handlerName = message[@"handlerName"];
+            if (handlerName) {
+                WebViewJavascriptBridge *targetBridge = self;
+                
+                NSArray *namespaces = [handlerName componentsSeparatedByString:@"."];
+                if (namespaces && namespaces.count > 1) {
+                    NSString *target = namespaces[0];
+                    handlerName = [handlerName substringFromIndex:target.length+1];
+                    if (![target isEqualToString:@"self"]) {
+                        UIViewController *viewController = [NavigationSectionsManager getViewController:target];
+                        if (viewController == nil || ![viewController isKindOfClass:[SectionViewController class]]) {
+                            NSLog(@"WVJB Warning: Unknown target %@", target);
+                            continue;
+                        }
+                        SectionViewController *sectionViewController = (SectionViewController*)viewController;
+                        targetBridge = sectionViewController.bridge;
+                    }
+                }
+                
+                handler = [targetBridge lookupHandler:handlerName];
                 if (!handler) {
-                    NSLog(@"WVJB Warning: No handler for %@", message[@"handlerName"]);
+                    NSLog(@"WVJB Warning: No handler for %@", handlerName);
                     return responseCallback(@{});
                 }
-            } else {
+            }
+            else {
                 handler = _messageHandler;
             }
             

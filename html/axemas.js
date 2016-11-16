@@ -89,14 +89,14 @@
 			});
 	};
 
-	axemas.storeData = function (key, value) {
+	axemas.storeData = function (key, value, callback) {
 		if (axemas.getPlatform() == 'unsupported')
 			localStorage.setItem(key, value);
 		else
 			axemas.call('storeData', {
 				'key': key,
 				'value': value
-			});
+			}, callback);
 	};
 
 	axemas.fetchData = function (key, callback) {

@@ -308,6 +308,10 @@ navigationType:(UIWebViewNavigationType)navigationType {
         [NavigationSectionsManager goto:data animated:YES];
         responseCallback(nil);
     }];
+    [self.bridge registerHandler:@"callJS" handler:^(id data, WVJBResponseCallback responseCallback) {
+        [self.bridge callHandler:data[@"handler"] data:data[@"data"]];
+        responseCallback(nil);
+    }];
     [self.bridge registerHandler:@"gotoFromSidebar" handler:^(id data, WVJBResponseCallback responseCallback) {
         [[NavigationSectionsManager activeController].view setUserInteractionEnabled:YES];
         [NavigationSectionsManager goto:data animated:NO];
