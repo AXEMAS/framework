@@ -219,6 +219,33 @@ public class SectionFragment extends Fragment {
             }
         });
 
+        this.jsbridge.registerHandler("callJS", new JavascriptBridge.Handler() {
+            @Override
+            public void call(Object data, JavascriptBridge.Callback callback) {
+                JSONObject jsonData = (JSONObject) data;
+
+                Log.d("axemas", "callJS with data: "+jsonData.toString());
+                try {
+                    JavascriptBridge jsbridge = NavigationSectionsManager.getActiveFragment(
+                            getActivity()
+                    ).getJSBridge();
+
+                    JSONObject handler_data = new JSONObject();
+                    // Set default value to data
+                    if(jsonData.has("data")) {
+                        handler_data = jsonData.getJSONObject("data");
+                    }
+                    // Calling javascript handler
+                    jsbridge.callJS(jsonData.getString("handler"), handler_data);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                callback.call();
+            }
+        });
+
+
         this.jsbridge.registerHandler("gotoFromSidebar", new JavascriptBridge.Handler() {
             @Override
             public void call(Object data, JavascriptBridge.Callback callback) {
@@ -256,6 +283,7 @@ public class SectionFragment extends Fragment {
                 try {
                     SharedStorage.store((AXMActivity) getActivity(), jsonData.getString("key"),
 																	 jsonData.getString("value"));
+                    callback.call();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

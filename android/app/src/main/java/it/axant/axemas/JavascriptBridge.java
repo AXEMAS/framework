@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 
 public class JavascriptBridge {
@@ -62,16 +63,45 @@ public class JavascriptBridge {
             return;
         }
 
+        // Parse handler name
+        String[] namespaces = handlerName.split(Pattern.quote("."), 2);
+
+        String target = "";
+        if(namespaces.length > 1) {
+            target = namespaces[0];
+            handlerName = namespaces[1];
+            Log.d("axemas", "Composit namespace with: target: " + target + " , handlerName: " + handlerName);
+        }
+
         final Handler handler = registeredHandlers.get(handlerName);
         if (handler == null) {
             this.sendError("Calling unregistered Handler");
             return;
         }
 
-        final JavascriptBridge bridge = this;
         final Object handlerArgs = args;
         final String handlerCallbackId = callbackId;
         Activity currentActivity = (Activity)webView.getContext();
+
+        // Call sidebar javascript
+        if(target.equals("sidebar") && handlerName.equals("callJS")) {
+            // Get the bridge of the sidebar
+            AXMSidebarController sidebar = NavigationSectionsManager.getSidebarController((AXMActivity) currentActivity);
+            JavascriptBridge sidebar_bridge = sidebar.getSidebarSectionController().getSection().getJSBridge();
+            try {
+                JSONObject handler_data = new JSONObject(data);
+                String js_registered_handler = handler_data.getJSONObject("data").getString("handler");
+                Log.d("axemas", "Direct call javascript registered handler: " + js_registered_handler);
+                handler_data.getJSONObject("data").remove("handler");
+                sidebar_bridge.callJS(js_registered_handler, handler_data);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        // Namespace not provided, normal execution of the handler
+        final JavascriptBridge bridge = this;
         currentActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
