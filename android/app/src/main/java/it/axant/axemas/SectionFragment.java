@@ -219,17 +219,13 @@ public class SectionFragment extends Fragment {
             }
         });
 
-        this.jsbridge.registerHandler("callJS", new JavascriptBridge.Handler() {
+        this.jsbridge.registerHandler("callJS", new JavascriptBridge.BaseHandler() {
             @Override
-            public void call(Object data, JavascriptBridge.Callback callback) {
+            public void call(JavascriptBridge jsbridge, Object data, JavascriptBridge.Callback callback) {
                 JSONObject jsonData = (JSONObject) data;
 
                 Log.d("axemas", "callJS with data: "+jsonData.toString());
                 try {
-                    JavascriptBridge jsbridge = NavigationSectionsManager.getActiveFragment(
-                            getActivity()
-                    ).getJSBridge();
-
                     JSONObject handler_data = new JSONObject();
                     // Set default value to data
                     if(jsonData.has("data")) {

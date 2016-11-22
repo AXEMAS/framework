@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 
 public class JavascriptBridge {
-    private HashMap<String, Handler> registeredHandlers;
+    private HashMap<String, BaseHandler> registeredHandlers;
     private HashMap<String, Callback> registeredCallbacks;
     private int uniqueCallbackId;
     private WebView webView;
@@ -28,13 +28,20 @@ public class JavascriptBridge {
         public abstract void call(JSONObject data);
     }
 
-    static public abstract class Handler {
+    static public abstract class BaseHandler {
+        public abstract void call(JavascriptBridge bridge, Object data, Callback callback);
+    }
+
+    static public abstract class Handler extends BaseHandler {
+        public void call(JavascriptBridge bridge, Object data, Callback callback) {
+            this.call(data, callback);
+        }
         public abstract void call(Object data, Callback callback);
     }
 
     JavascriptBridge(WebView webview) {
         this.webView = webview;
-        this.registeredHandlers = new HashMap<String, Handler>();
+        this.registeredHandlers = new HashMap<String, BaseHandler>();
         this.registeredCallbacks = new HashMap<String, Callback>();
     }
 
@@ -73,7 +80,15 @@ public class JavascriptBridge {
             Log.d("axemas", "Composit namespace with: target: " + target + " , handlerName: " + handlerName);
         }
 
-        final Handler handler = registeredHandlers.get(handlerName);
+        Activity currentActivity = (Activity)webView.getContext();
+        JavascriptBridge targetbridge = this;
+        if (target.length() > 0 && !target.equals("self")) {
+            SectionFragment targetFragment = NavigationSectionsManager.getFragment(currentActivity, target);
+            if (targetFragment != null)
+                targetbridge = targetFragment.getJSBridge();
+        }
+
+        final BaseHandler handler = targetbridge.registeredHandlers.get(handlerName);
         if (handler == null) {
             this.sendError("Calling unregistered Handler");
             return;
@@ -81,31 +96,11 @@ public class JavascriptBridge {
 
         final Object handlerArgs = args;
         final String handlerCallbackId = callbackId;
-        Activity currentActivity = (Activity)webView.getContext();
-
-        // Call sidebar javascript
-        if(target.equals("sidebar") && handlerName.equals("callJS")) {
-            // Get the bridge of the sidebar
-            AXMSidebarController sidebar = NavigationSectionsManager.getSidebarController((AXMActivity) currentActivity);
-            JavascriptBridge sidebar_bridge = sidebar.getSidebarSectionController().getSection().getJSBridge();
-            try {
-                JSONObject handler_data = new JSONObject(data);
-                String js_registered_handler = handler_data.getJSONObject("data").getString("handler");
-                Log.d("axemas", "Direct call javascript registered handler: " + js_registered_handler);
-                handler_data.getJSONObject("data").remove("handler");
-                sidebar_bridge.callJS(js_registered_handler, handler_data);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return;
-        }
-
-        // Namespace not provided, normal execution of the handler
-        final JavascriptBridge bridge = this;
+        final JavascriptBridge bridge = targetbridge;
         currentActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                handler.call(handlerArgs, new JavascriptCallback(bridge, handlerCallbackId));
+                handler.call(bridge, handlerArgs, new JavascriptCallback(bridge, handlerCallbackId));
             }
         });
     }
@@ -159,7 +154,7 @@ public class JavascriptBridge {
             callback.call(data);
     }
 
-    public void registerHandler(String handlerName, Handler handler) {
+    public void registerHandler(String handlerName, BaseHandler handler) {
         registeredHandlers.put(handlerName, handler);
     }
 
