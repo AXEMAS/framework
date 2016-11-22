@@ -52,6 +52,16 @@ public class NavigationSectionsManager {
         return (SectionFragment)((AXMActivity) context).getFragmentManager().findFragmentByTag("web_fragment");
     }
 
+    public static SectionFragment getFragment(Context context, String name) {
+        AXMActivity activity = (AXMActivity)context;
+        if (name.equals("sidebar"))
+            return (SectionFragment)activity.getFragmentManager().findFragmentByTag("sidebar_fragment");
+        else if (name.equals("active"))
+            return (SectionFragment)activity.getFragmentManager().findFragmentByTag("web_fragment");
+        else
+            return null;
+    }
+    
     public static AXMTabBarController getTabBarController(AXMActivity activity) {
         return activity.getTabBarController();
     }
