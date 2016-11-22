@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace axemas.Common
 {
-    using AXMHandler = Action<JObject, JavaScriptBridge.JavascriptCallback>;
+    using AXMHandler = Action<JavaScriptBridge, JObject, JavaScriptBridge.JavascriptCallback>;
     using AXMCallback = Action<JObject>;
     using StringDict = Dictionary<String, String>;
 
@@ -81,8 +81,28 @@ namespace axemas.Common
                 jdata = call.Value<JObject>("data");
             }
 
-            if (messageType == "CallHandler")
-                this.callNativeHandler(call.Value<string>("handlerName"), jdata, call.Value<string>("callbackId"));
+            if (messageType == "CallHandler") {
+                string target = "self";
+                string handlerName = call.Value<string>("handlerName");
+
+                // handlerName might be target.handlerName which means to call it on another view
+                string[] targetAndHandler = handlerName.Split(".".ToCharArray(), 1);
+                if (targetAndHandler != null && targetAndHandler.Length > 1) {
+                    target = targetAndHandler[0];
+                    handlerName = targetAndHandler[1];
+                }
+
+
+                JavaScriptBridge targetbridge = this;
+                if (!target.Equals("self")) {
+                    Controls.SectionViewPage sectionViewPage = NavigationSectionManager.Instance.getSectionViewPage(target);
+                    if (sectionViewPage != null) {
+                        targetbridge = sectionViewPage.getJSBridge();
+                    }
+                }
+
+                targetbridge.callNativeHandler(handlerName, jdata, call.Value<string>("callbackId"));
+            }
             else if (messageType == "CallCallback")
                 this.callNativeCallback(call.Value<string>("callbackId"), jdata);
         }
@@ -117,7 +137,7 @@ namespace axemas.Common
             }
 
             this.uiDispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
-                handler(data, new JavascriptCallback(this, callbackId));
+                handler(this, data, new JavascriptCallback(this, callbackId));
             });
 
         }

@@ -85,17 +85,17 @@ namespace axemas.Controls
 
         private void initBultinHandlers()
         {
-            this.jsbridge.registerHandler("goto", (JObject data, JavaScriptBridge.JavascriptCallback cb) => {
+            this.jsbridge.registerHandler("goto", (JavaScriptBridge jsbridge, JObject data, JavaScriptBridge.JavascriptCallback cb) => {
                 Debug.WriteLine("Goto: " + data);
                 NavigationSectionManager.Instance.goTo(data, closeSidebar: false);
             });
 
-            this.jsbridge.registerHandler("gotoFromSidebar", (JObject data, JavaScriptBridge.JavascriptCallback cb) => {
+            this.jsbridge.registerHandler("gotoFromSidebar", (JavaScriptBridge jsbridge, JObject data, JavaScriptBridge.JavascriptCallback cb) => {
                 Debug.WriteLine("Goto: " + data);
                 NavigationSectionManager.Instance.goTo(data, closeSidebar: true);
             });
 
-            this.jsbridge.registerHandler("dialog", (JObject data, JavaScriptBridge.JavascriptCallback cb) => {
+            this.jsbridge.registerHandler("dialog", (JavaScriptBridge jsbridge, JObject data, JavaScriptBridge.JavascriptCallback cb) => {
                 string message = data.Value<string>("message") ?? "";
                 string title = data.Value<string>("title") ?? "";
                 JArray buttons = new JArray();
@@ -122,21 +122,21 @@ namespace axemas.Controls
                 dialog.ShowAsync();
             });
 
-            this.jsbridge.registerHandler("showProgressHUD", (JObject data, JavaScriptBridge.JavascriptCallback cb) => {
+            this.jsbridge.registerHandler("showProgressHUD", (JavaScriptBridge jsbridge, JObject data, JavaScriptBridge.JavascriptCallback cb) => {
                 NavigationSectionManager.Instance.showProgressDialog();
             });
 
-            this.jsbridge.registerHandler("hideProgressHUD", (JObject data, JavaScriptBridge.JavascriptCallback cb) => {
+            this.jsbridge.registerHandler("hideProgressHUD", (JavaScriptBridge jsbridge, JObject data, JavaScriptBridge.JavascriptCallback cb) => {
                 NavigationSectionManager.Instance.hideProgressDialog();
             });
 
-            this.jsbridge.registerHandler("storeData", (JObject data, JavaScriptBridge.JavascriptCallback cb) => {
+            this.jsbridge.registerHandler("storeData", (JavaScriptBridge jsbridge, JObject data, JavaScriptBridge.JavascriptCallback cb) => {
                 string key = data.Value<string>("key");
                 string value = data.Value<string>("value");
                 NavigationSectionManager.Instance.store(key, value);
             });
 
-            this.jsbridge.registerHandler("fetchData", (JObject data, JavaScriptBridge.JavascriptCallback cb) => {
+            this.jsbridge.registerHandler("fetchData", (JavaScriptBridge jsbridge, JObject data, JavaScriptBridge.JavascriptCallback cb) => {
                 string key = data.Value<string>("key");
                 string value = NavigationSectionManager.Instance.getValueForKey(key);
                 if (cb != null)
@@ -148,9 +148,15 @@ namespace axemas.Controls
                 }
             });
 
-            this.jsbridge.registerHandler("removeData", (JObject data, JavaScriptBridge.JavascriptCallback cb) => {
+            this.jsbridge.registerHandler("removeData", (JavaScriptBridge jsbridge, JObject data, JavaScriptBridge.JavascriptCallback cb) => {
                 string key = data.Value<string>("key");
                 NavigationSectionManager.Instance.removeValue(key);
+            });
+
+            this.jsbridge.registerHandler("callJS", (JavaScriptBridge jsbridge, JObject data, JavaScriptBridge.JavascriptCallback cb) => {
+                string handlerName = data.Value<string>("handler");
+                JObject callData = data.Value<JObject>("data");
+                jsbridge.callJS(handlerName, callData);
             });
         }
 

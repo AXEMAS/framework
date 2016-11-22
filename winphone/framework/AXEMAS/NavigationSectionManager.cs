@@ -64,6 +64,18 @@ namespace axemas
             return app.sideBarController;
         }
 
+        public Controls.SectionViewPage getSectionViewPage(string name)
+        {
+            if (name.Equals("sidebar")) {
+                var app = getApplication();
+                return app.AppContainer.MenuPanel as Controls.SectionViewPage;
+            }
+            else if(name.Equals("active")) {
+                return this.getActiveSectionViewPage();
+            }
+            return null;
+        }
+
         public AXMNavigationController getActiveNavigationController()
         {
             var app = getApplication();
