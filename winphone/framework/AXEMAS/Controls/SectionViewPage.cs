@@ -134,6 +134,9 @@ namespace axemas.Controls
                 string key = data.Value<string>("key");
                 string value = data.Value<string>("value");
                 NavigationSectionManager.Instance.store(key, value);
+                if (cb != null) {
+                    cb.call();
+                }
             });
 
             this.jsbridge.registerHandler("fetchData", (JavaScriptBridge jsbridge, JObject data, JavaScriptBridge.JavascriptCallback cb) => {
