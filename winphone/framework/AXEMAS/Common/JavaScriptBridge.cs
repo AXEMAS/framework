@@ -86,7 +86,7 @@ namespace axemas.Common
                 string handlerName = call.Value<string>("handlerName");
 
                 // handlerName might be target.handlerName which means to call it on another view
-                string[] targetAndHandler = handlerName.Split(".".ToCharArray(), 1);
+                string[] targetAndHandler = handlerName.Split(".".ToCharArray(), 2);
                 if (targetAndHandler != null && targetAndHandler.Length > 1) {
                     target = targetAndHandler[0];
                     handlerName = targetAndHandler[1];
